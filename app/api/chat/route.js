@@ -44,6 +44,7 @@ export async function POST(req) {
         stream: true,
       }),
       signal: req.signal,
+      cache: "no-store",
     });
 
     if (!response.ok) {

@@ -15,6 +15,7 @@ export { default as InstructionsPanel } from "./chat/InstructionsPanel";
 export { default as StackedProjectCard } from "./chat/StackedProjectCard";
 export { default as ChatFooterMessage } from "./chat/ChatFooterMessage";
 export { default as ModelPicker } from "./chat/ModelPicker";
+export { default as ProjectPicker } from "./chat/ProjectPicker";
 
 // PUBLIC COMPONENTS
 export { default as PublicHeader } from "./public/PublicHeader";

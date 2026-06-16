@@ -28,6 +28,7 @@ import {
   DropdownMenu,
   Icon,
   ModelPicker,
+  ProjectPicker,
 } from "@/components";
 import SettingsModal from "@/components/modal/SettingsModal";
 import { useChat, useDatabase, useModal } from "@/context";
@@ -103,6 +104,13 @@ export default function ChatInterface({
   const [hasContent, setHasContent] = useState(false);
   const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
   const [providerModels, setProviderModels] = useState(MODELS);
+  const [pickedProject, setPickedProject] = useState(null);
+  const [availableProjects, setAvailableProjects] = useState([]);
+
+  // The project picker only applies to a brand-new, un-started chat with no
+  // project context already fixed by the page (e.g. /chat, not /project/[id]
+  // or an existing conversation).
+  const canPickProject = !project_id && !conversationId;
 
   const isMobile = useIsMobile();
   const { openModal } = useModal();
@@ -132,6 +140,7 @@ export default function ChatInterface({
     updateUserProfile,
     updateProjectMemory,
     userProfile,
+    subscribeToProjects,
   } = useDatabase();
 
   // Load models from provider API
@@ -149,6 +158,12 @@ export default function ChatInterface({
       cancelled = true;
     };
   }, []);
+
+  // Live-load the user's projects for the project picker on a brand-new chat
+  useEffect(() => {
+    if (!canPickProject || !subscribeToProjects) return;
+    return subscribeToProjects((list) => setAvailableProjects(list));
+  }, [canPickProject, subscribeToProjects]);
 
   // Sync default model from user profile once on load
   useEffect(() => {
@@ -223,6 +238,11 @@ export default function ChatInterface({
 
   const handleFileSelect = useFileSelectHandler(addAttachment);
 
+  // When the picker is active, the user's selection takes over as the
+  // effective project for the conversation about to be created.
+  const effectiveProjectId = canPickProject ? pickedProject?.id : project_id;
+  const effectiveProject = canPickProject ? pickedProject : project;
+
   const send = useSendMessageHandler(
     sendMessage,
     attachments,
@@ -236,8 +256,8 @@ export default function ChatInterface({
     updateUserProfile,
     updateProjectMemory,
     userProfile,
-    project_id,
-    project,
+    effectiveProjectId,
+    effectiveProject,
     router,
     textareaRef,
     selectedModel,
@@ -376,6 +396,16 @@ export default function ChatInterface({
           </DropdownMenu>
 
           <div className="flex-1" />
+
+          {/* Project selector — only for a brand-new, un-started chat */}
+          {canPickProject && (
+            <ProjectPicker
+              projects={availableProjects}
+              selectedProjectId={pickedProject?.id ?? null}
+              currentLabel={pickedProject?.title ?? "No Project"}
+              onSelect={setPickedProject}
+            />
+          )}
 
           {/* Model selector — quick access + manage */}
           <ModelPicker
