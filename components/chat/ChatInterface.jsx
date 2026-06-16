@@ -137,6 +137,7 @@ export default function ChatInterface({
     addConversationToProject,
     getMessages,
     getProjectConversations,
+    getProject,
     updateUserProfile,
     updateProjectMemory,
     userProfile,
@@ -253,6 +254,7 @@ export default function ChatInterface({
     getMessages,
     addConversationToProject,
     getProjectConversations,
+    getProject,
     updateUserProfile,
     updateProjectMemory,
     userProfile,
@@ -395,8 +397,6 @@ export default function ChatInterface({
             </span>
           </DropdownMenu>
 
-          <div className="flex-1" />
-
           {/* Project selector — only for a brand-new, un-started chat */}
           {canPickProject && (
             <ProjectPicker
@@ -406,6 +406,8 @@ export default function ChatInterface({
               onSelect={setPickedProject}
             />
           )}
+
+          <div className="flex-1" />
 
           {/* Model selector — quick access + manage */}
           <ModelPicker

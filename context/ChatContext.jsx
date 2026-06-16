@@ -107,6 +107,7 @@ export default function ChatProvider({ children }) {
     getMessages,
     addConversationToProject,
     getProjectConversations,
+    getProject,
     updateUserProfile,
     updateProjectMemory,
     userProfile,
@@ -160,16 +161,25 @@ export default function ChatProvider({ children }) {
         router?.push(`/chat/${chatId}`);
       }
 
-      // ── Inject sibling summaries into project context ────────────────────
+      // ── Always use fresh project data (memories/instructions/description
+      // may have changed since this `project` object was last loaded into
+      // the calling component's state, e.g. a sibling chat just saved a
+      // shared memory in the background) ────────────────────────────────
       let projectContext = project;
-      if (projectId && conversationId && project?.conversationIds?.length > 1) {
+      if (projectId && typeof getProject === "function") {
+        const freshProject = await getProject(projectId);
+        if (freshProject) projectContext = freshProject;
+      }
+
+      // ── Inject sibling summaries into project context ────────────────────
+      if (projectId && conversationId && projectContext?.conversationIds?.length > 1) {
         const summaries = await fetchSiblingConversationSummaries(
           projectId,
           conversationId,
           getProjectConversations,
         );
         if (summaries.length > 0) {
-          projectContext = { ...project, conversationSummaries: summaries };
+          projectContext = { ...projectContext, conversationSummaries: summaries };
         }
       }
 
