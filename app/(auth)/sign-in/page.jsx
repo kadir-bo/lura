@@ -1,0 +1,100 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "react-feather";
+import { useAuth } from "@/context/AuthContext";
+import { useAuthGuard } from "@/hooks";
+import { Input, PrimaryButton, AuthFormShell, Icon } from "@/components";
+
+export default function SignInPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { signIn, error } = useAuth();
+  const { user, loading: authLoading } = useAuthGuard();
+
+  if (authLoading || user) return null;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await signIn(email, password);
+    } catch (err) {
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <PrimaryButton
+        href="/"
+        className="fixed top-0 left-0 w-max min-w-0 p-4 border-none  justify-center hover:bg-transparent text-white"
+      >
+        <Icon name={ArrowLeft} size="sm" />
+      </PrimaryButton>
+
+      <AuthFormShell
+        title="Sign In"
+        error={error}
+        footer={
+          <span style={{ color: "var(--text-2)" }}>
+            <Link
+              href="/reset-password"
+              className="block mb-2 hover:text-foreground transition-colors"
+            >
+              Forgot password?
+            </Link>
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/sign-up"
+              className="underline underline-offset-4 hover:text-foreground transition-colors"
+              style={{ color: "var(--text-1)" }}
+            >
+              Sign up
+            </Link>
+          </span>
+        }
+      >
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 md:space-y-8 px-3 md:px-6"
+        >
+          <div className="space-y-3 md:space-y-4">
+            <Input
+              label="Email"
+              value={email}
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              required
+              placeholder="Example@mail.com"
+            />
+            <Input
+              label="Password"
+              value={password}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          <PrimaryButton
+            className="justify-center"
+            cta
+            filled
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign In"}
+          </PrimaryButton>
+        </form>
+      </AuthFormShell>
+    </>
+  );
+}

@@ -1,0 +1,48 @@
+"use client";
+
+import { PrimaryButton } from "@/components";
+import { usePathname } from "next/navigation";
+
+export default function SettingsLayout({ children }) {
+  const pathname = usePathname();
+
+  const tabs = [
+    { name: "General", href: "/settings/general" },
+    { name: "Account", href: "/settings/account" },
+    { name: "Privacy", href: "/settings/privacy" },
+  ];
+  return (
+    <div className={`h-[calc(100dvh-48px)] overflow-y-scroll px-4`}>
+      <div className="wrapper flex flex-col md:flex-row gap-6 items-start">
+        {/* Sidebar Navigation */}
+        <aside
+          className="w-full md:w-48 fixed md:sticky left-0 md:top-16 z-99 shrink-0 px-5 py-2 md:py-0 md:px-0 md:bg-transparent border-t md:border-none"
+          style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+        >
+          <nav aria-label="Settings navigation">
+            <ul className="space-y-1 flex flex-row md:flex-col justify-center">
+              {tabs.map((tab) => {
+                const isActive = pathname === tab.href;
+
+                return (
+                  <li key={tab.href}>
+                    <PrimaryButton
+                      href={tab.href}
+                      className="border-transparent hover:border-transparent hover:bg-[var(--interactive-hover)] py-2"
+                      active={isActive}
+                    >
+                      {tab.name}
+                    </PrimaryButton>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </aside>
+
+        {/* Main Content */}
+        <main className="mt-16 pt-8 md:pt-0 pb-16 min-h-dvh">{children}</main>
+      </div>
+    </div>
+  );
+}

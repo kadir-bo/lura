@@ -1,0 +1,143 @@
+"use client";
+
+import React, { useState } from "react";
+import { useDatabase, useModal } from "@/context";
+import {
+  RenameChatModal,
+  DropdownMenu,
+  DeleteConfirmModal,
+  Icon,
+} from "@/components";
+import { Archive, Edit2, Folder, Trash } from "react-feather";
+import { twMerge } from "tailwind-merge";
+
+export default function ChatCard({
+  conversation,
+  className = "",
+  isSelected = false,
+  onCardClick = () => null,
+  onLongPressStart = () => null,
+  onLongPressCancel = () => null,
+  project = null,
+}) {
+  const { title, id, isArchived } = conversation;
+  const { toggleArchiveConversation, deleteConversation } = useDatabase();
+  const { openModal, openMessage } = useModal();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleArchiveChat = async (id) => {
+    const result = await toggleArchiveConversation(id, !isArchived);
+    if (result)
+      openMessage(isArchived ? "Chat unarchived" : "Chat archived", "success");
+  };
+
+  const handleDeleteChat = async (id) => {
+    const result = await deleteConversation(id);
+    if (result) openMessage("Chat deleted", "success");
+  };
+
+  const archiveItem = {
+    id: "archive-chat",
+    label: isArchived ? "Unarchive" : "Archive",
+    icon: Archive,
+    action: () => handleArchiveChat(conversation.id),
+  };
+
+  const deleteItem = {
+    id: "delete-chat",
+    label: "Delete",
+    icon: Trash,
+    action: () =>
+      openModal(
+        <DeleteConfirmModal
+          title="chat"
+          description="Are you sure you want to delete this chat? This action cannot be undone."
+          onConfirm={() => handleDeleteChat(id)}
+        />,
+      ),
+  };
+
+  // Archived cards offer only Unarchive + Delete.
+  const ChatDropDownMenu = isArchived
+    ? [archiveItem, deleteItem]
+    : [
+        {
+          id: "rename-chat",
+          label: "Rename",
+          icon: Edit2,
+          action: () =>
+            openModal(
+              <RenameChatModal
+                title={conversation.title}
+                id={conversation.id}
+              />,
+            ),
+        },
+        archiveItem,
+        deleteItem,
+      ];
+
+  const handleClick = (e) => {
+    if (e.defaultPrevented) return;
+    onCardClick(e, id);
+  };
+
+  const defaultClasses = `
+    relative flex justify-between items-center gap-4 w-full
+    border rounded-xl cursor-pointer select-none
+    transition-colors duration-150
+  `;
+  const projectClasses = "";
+  const selectedClasses = isSelected
+    ? "border-[var(--border-hi)] bg-[var(--elevated)]"
+    : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-med)] hover:bg-[var(--elevated)]";
+  const dropdownActiveClasses =
+    isDropdownOpen && !isSelected
+      ? "border-[var(--border-med)] bg-[var(--elevated)]"
+      : "";
+
+  return (
+    <div
+      className={twMerge(
+        defaultClasses,
+        projectClasses,
+        className,
+        selectedClasses,
+        dropdownActiveClasses,
+      )}
+      onClick={handleClick}
+      onMouseDown={(e) => onLongPressStart(e, id)}
+      onMouseUp={onLongPressCancel}
+      onMouseLeave={onLongPressCancel}
+      onTouchStart={(e) => onLongPressStart(e, id)}
+      onTouchEnd={onLongPressCancel}
+      onTouchMove={onLongPressCancel}
+      onContextMenu={(e) => e.preventDefault()}
+    >
+      <div className="flex flex-col justify-center flex-1 py-2.5 pl-4 min-w-0 gap-0.5">
+        <h4 className="font-medium truncate leading-snug">
+          {title || "Untitled Chat"}
+        </h4>
+        {project && (
+          <span className="flex gap-1 mt-1.5 text-xs truncate max-w-48 leading-none" style={{ color: "var(--text-3)" }}>
+            <Icon name={Folder} size="xs" className="shrink-0" />
+            {project.title}
+          </span>
+        )}
+      </div>
+
+      <DropdownMenu
+        dropdownList={ChatDropDownMenu}
+        triggerClassName="p-3.5"
+        contentSide="right"
+        contentClassName="-translate-x-2 translate-y-1"
+        contentSideOffset={0}
+        onOpenChange={setIsDropdownOpen}
+        onClick={(e, menuItem) => {
+          e.stopPropagation();
+          menuItem.action();
+        }}
+      />
+    </div>
+  );
+}

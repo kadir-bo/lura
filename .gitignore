@@ -32,6 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# others
+.todoo.md
+/.claude/
+QA_REPORT.md
+
+# generated artifacts
+/graphify-out/
+/scripts/model-benchmark.json
 
 # vercel
 .vercel
@@ -39,3 +49,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+

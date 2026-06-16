@@ -1,0 +1,72 @@
+rules_version = '2';
+
+// Owner-scoped security rules for Lura.
+// Data model:
+//   users/{uid}                                  → profile (owner == uid)
+//   projects/{id}            { userId }          → owner-only
+//   conversations/{id}       { userId }          → owner-only
+//   conversations/{id}/messages/{msgId}          → gated by parent ownership
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Existing document belongs to the caller (used for update / delete).
+    function ownsResource() {
+      return isSignedIn() && resource != null
+             && request.auth.uid == resource.data.userId;
+    }
+
+    // Incoming (to-be-written) document belongs to the caller.
+    function ownsIncoming() {
+      return isSignedIn() && request.auth.uid == request.resource.data.userId;
+    }
+
+    // A single-doc get is allowed for the owner, AND for a document that does
+    // not exist — so the client can probe possibly-stale ids (e.g. a deleted
+    // conversation still listed in project.conversationIds) and get a clean
+    // "not found" instead of a permission error that aborts the whole batch.
+    function canGet() {
+      return isSignedIn()
+             && (resource == null || resource.data.userId == request.auth.uid);
+    }
+
+    // ── User profiles ───────────────────────────────────────────────────────
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ── Projects ────────────────────────────────────────────────────────────
+    match /projects/{projectId} {
+      allow get: if canGet();
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if ownsIncoming();
+      // Allow updates (archive, rename, …) but keep ownership immutable.
+      allow update: if ownsResource()
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if ownsResource();
+    }
+
+    // ── Conversations ───────────────────────────────────────────────────────
+    match /conversations/{conversationId} {
+      allow get: if canGet();
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if ownsIncoming();
+      allow update: if ownsResource()
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if ownsResource();
+
+      // Messages inherit access from the parent conversation, so this works
+      // whether or not each message document stores its own userId. The
+      // exists() guard avoids a null-deref when the parent is already gone.
+      match /messages/{messageId} {
+        allow read, write: if isSignedIn()
+          && exists(/databases/$(database)/documents/conversations/$(conversationId))
+          && get(/databases/$(database)/documents/conversations/$(conversationId))
+               .data.userId == request.auth.uid;
+      }
+    }
+  }
+}

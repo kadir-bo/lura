@@ -1,36 +1,93 @@
 # Lura
 
-**A modern chat interface that lets you talk to multiple AI models — with native support for tools and function calling.**
-
-Lura is built for developers and power users who want a single, clean interface to work across different AI providers without switching apps, managing separate API keys in different dashboards, or losing conversation context.
-
----
-
-## Why Lura?
-
-Most chat interfaces lock you into a single model. Lura doesn't. Switch between models mid-workflow, compare responses side by side, or route specific tasks to the model best suited for them — all from one place.
-
-When a model needs to act — look something up, retrieve user data, call an API — Lura's function calling support makes that visible and transparent. You see exactly what tool was invoked, what it received, and what it returned.
-
----
+Multi-model AI chat application built with Next.js 16, Firebase, and the NVIDIA NIM API. Organize conversations into projects, manage long-term memory, and choose from a dynamically loaded catalog of LLM models.
 
 ## Features
 
-### Multi-Model Support
-Connect to multiple AI providers and models from a single interface. Switch models per conversation or per message. Lura abstracts the provider differences so the experience stays consistent.
-
-### Function Calling & Tools
-First-class support for AI tool use. When a model calls a function, Lura surfaces the full call — name, input, and result — in a collapsible card inline with the conversation. No black boxes.
-
-### Streaming Responses
-Responses stream in real time as the model generates them. Tool calls appear live as they accumulate. Abort any generation mid-stream with a single click.
-
-### Clean Conversation History
-Full conversation context is preserved and correctly formatted across turns, including multi-step tool call cycles. The model always has the complete picture.
-
----
+- **Chat** — streaming responses, attachments, regenerate/edit messages, version history
+- **Projects** — group related conversations, shared project memory and context
+- **Dynamic models** — model catalog is fetched live from the NVIDIA NIM API and grouped by provider/company, with benchmarked "Fast" models flagged
+- **Settings** — profile, instructions, enabled models, default model, custom OpenAI-compatible providers
+- **Archive** — archive/unarchive chats and projects without deleting them
+- **Auth** — email/password via Firebase Authentication
 
 ## Tech Stack
 
-- **Next.js** — App Router, Edge & Node runtimes
-- **Tailwind CSS** — utility-first styling
+- [Next.js 16](https://nextjs.org) (App Router, Turbopack)
+- [React 19](https://react.dev)
+- [Firebase](https://firebase.google.com) (Auth + Firestore)
+- [NVIDIA NIM](https://build.nvidia.com) (OpenAI-compatible inference API)
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [Framer Motion](https://www.framer.com/motion/)
+
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Copy `.env.example` to `.env.local` and fill in your own values:
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable | Description |
+| --- | --- |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Firebase Web API key |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | Firebase Auth domain |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | Firebase Storage bucket |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | Firebase Cloud Messaging sender ID |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | Firebase app ID |
+| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | Firebase Analytics measurement ID (optional) |
+| `NVIDIA_API_KEY` | Server-only key for the NVIDIA NIM API ([build.nvidia.com](https://build.nvidia.com)) — never exposed to the client |
+
+### 3. Deploy Firestore security rules
+
+Rules are owner-scoped (a user can only read/write their own data) and live in [`firestore.rules`](firestore.rules):
+
+```bash
+npx firebase login
+npx firebase deploy --only firestore:rules --project <your-firebase-project-id>
+```
+
+### 4. Run the dev server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Project Structure
+
+```
+app/
+├── (public)/        Landing page
+├── (auth)/           Sign in, sign up, reset password
+├── (chat)/           Chat, chats list, projects, archive, settings
+└── api/              Chat completion + model listing routes (server-side)
+components/
+├── chat/             Chat interface, conversation view, model picker
+├── modal/             Settings modal + section components, confirmation modals
+├── shell/             Page shells/layout
+└── ui/                Shared primitives (toggle, searchbar, icon, ...)
+context/               React context providers (auth, database, chat, modal, dropdown)
+hooks/                  Reusable hooks (selection, paste, file select, ...)
+lib/                    Firebase config, API helpers, prompts, model catalog
+firestore.rules         Firestore security rules (owner-scoped)
+```
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server (Turbopack) |
+| `npm run build` | Production build |
+| `npm run start` | Start the production server |
+| `npm run lint` | Run ESLint |

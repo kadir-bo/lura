@@ -1,0 +1,100 @@
+"use client";
+
+import {
+  DeleteAccountModal,
+  Icon,
+  PrimaryButton,
+  UserProfileImage,
+} from "@/components";
+import { useAuth, useDatabase, useModal } from "@/context";
+import { useState } from "react";
+import { LogOut, Trash2 } from "react-feather";
+
+function AccountSettingsPage() {
+  const { user, logout } = useAuth();
+  const { userProfile } = useDatabase();
+
+  const { displayName, email } = user;
+  const username = userProfile?.displayName || displayName || email;
+  const userImage = userProfile?.photoURL || null;
+
+  const { openModal, openMessage } = useModal();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      await logout();
+      openMessage("Logged out successfully", "success");
+    } catch (error) {
+      openMessage("Failed to log out", "error");
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
+  const handleDeleteAccount = () => {
+    openModal(<DeleteAccountModal />);
+  };
+
+  return (
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-5">
+        <h4 className="font-medium">Account</h4>
+        <div className="flex flex-col gap-3 p-4 rounded-xl border border-neutral-800 bg-neutral-900/30    ">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-neutral-400 ">{email}</p>
+            </div>
+            <UserProfileImage size="sm" image={userImage} username={username} />
+          </div>
+        </div>
+      </div>
+
+      <hr className="text-neutral-700" />
+
+      <div className="flex flex-col gap-5">
+        <h4 className="font-medium">Session</h4>
+        <div className="flex items-center justify-between p-4 rounded-xl border border-neutral-800 bg-neutral-900/30    ">
+          <div>
+            <p className="text-sm font-medium text-white">Log out</p>
+            <p className="text-sm text-neutral-400 ">
+              Sign out of your account on this device
+            </p>
+          </div>
+          <PrimaryButton
+            className="w-max px-3 min-w-28 justify-center"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            {isLoggingOut ? "Logging out..." : "Log out"}
+            <Icon name={LogOut} size="sm" />
+          </PrimaryButton>
+        </div>
+      </div>
+
+      <hr className="text-neutral-700" />
+
+      <div className="flex flex-col gap-5">
+        <h4 className="font-medium">Danger Zone</h4>
+        <div className="flex flex-col gap-8 md:flex-row items-center justify-between p-4 rounded-xl border border-red-900/30 bg-red-950/10">
+          <div>
+            <p className="text-sm font-medium text-white">Delete Account</p>
+            <p className="text-sm text-neutral-400 ">
+              Permanently delete your account and all associated data
+            </p>
+          </div>
+          <PrimaryButton
+            className="min-w-36 w-full md:w-max justify-center border-red-700/60 text-red-500 hover:bg-red-700/10"
+            onClick={handleDeleteAccount}
+          >
+            Delete Account
+            <Icon name={Trash2} size="sm" />
+          </PrimaryButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AccountSettingsPage;

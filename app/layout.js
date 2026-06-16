@@ -1,38 +1,43 @@
-import { Noto_Sans, Roboto_Mono } from "next/font/google";
+import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/components";
+import { Providers } from "@/context";
 
-const notoSans = Noto_Sans({
-  variable: "--font-noto-sans",
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 export const metadata = {
   title: "Lura",
-  description: "Multi-model AI chat Application",
+  description: "Eine Chat-Plattform die Modelle vereint",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning>
       <head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
       </head>
-      <body
-        className={`${notoSans.variable} ${robotoMono.variable} antialiased`}
-      >
+      <body className={`${syne.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -27,7 +27,6 @@ export default function AuthProvider({ children }) {
   const [error, setError] = useState(null);
 
   const auth = getFirebaseAuth();
-  const clearError = () => setError(null);
 
   // Listen to auth state changes
   useEffect(() => {
@@ -71,6 +70,7 @@ export default function AuthProvider({ children }) {
     } catch (error) {
       const userFriendlyMessage = getAuthErrorMessage(error);
       setError(userFriendlyMessage);
+      throw new Error(userFriendlyMessage);
     }
   };
 
@@ -107,7 +107,6 @@ export default function AuthProvider({ children }) {
     username,
     loading,
     error,
-    clearError,
     signUp,
     signIn,
     logout,

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-const TOOLTIP_POSITION_CLASSES = {
+const TOOLTIP_POSITIONS = {
   top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
   bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
   left: "right-full top-1/2 -translate-y-1/2 mr-2",
@@ -23,32 +23,34 @@ export default function Button({
   ...props
 }) {
   const classes = twMerge(
-    // Base
-    "relative group/btn w-full p-2 rounded-md font-medium outline-none",
-    "border border-neutral-400 cursor-pointer",
-    "transition-colors duration-150",
-    // Hover (only when not disabled)
-    "hover:bg-neutral-900/20 hover:border-neutral-200",
-    // Filled variant
+    "relative group/btn w-full px-4 py-2.5 rounded-lg font-medium text-sm outline-none cursor-pointer",
+    "border transition-colors duration-100",
+    "flex items-center justify-center gap-2",
+    "border-[var(--border-med)] text-[var(--text-2)]",
+    "hover:border-[var(--border-hi)] hover:text-foreground hover:bg-[var(--interactive-hover)]",
     filled &&
-      "bg-white border-white text-neutral-950 hover:bg-white hover:border-white",
-    // Active state
-    active && "bg-neutral-900/10 border-neutral-200",
+      "bg-[var(--interactive)] border-transparent text-[var(--bg)] hover:bg-white/90 hover:text-[var(--bg)] hover:border-transparent",
+    active &&
+      "bg-[var(--interactive-hover)] border-[var(--border-med)] text-foreground",
     active && activeClassName,
-    // Disabled state
     disabled && "opacity-30 cursor-not-allowed pointer-events-none",
     className,
   );
 
-  const tooltipElement = tooltip && (
+  const tooltipEl = tooltip && (
     <span
       className={twMerge(
-        "absolute whitespace-nowrap bg-neutral-800 text-neutral-100 text-sm px-2 py-1 rounded z-10",
+        "absolute whitespace-nowrap text-xs px-2 py-1 rounded-md z-50",
+        "border shadow-[var(--shadow-sm)]",
         "opacity-0 pointer-events-none",
-        "transition-opacity duration-200 group-hover/btn:opacity-100 group-hover/btn:delay-500",
-        TOOLTIP_POSITION_CLASSES[tooltipPosition] ??
-          TOOLTIP_POSITION_CLASSES.top,
+        "transition-opacity duration-150 group-hover/btn:opacity-100 group-hover/btn:delay-500",
+        TOOLTIP_POSITIONS[tooltipPosition] ?? TOOLTIP_POSITIONS.top,
       )}
+      style={{
+        background: "var(--overlay)",
+        borderColor: "var(--border)",
+        color: "var(--text-1)",
+      }}
     >
       {tooltip}
     </span>
@@ -57,7 +59,7 @@ export default function Button({
   if (href) {
     return (
       <Link href={href} className={classes} aria-disabled={disabled} {...props}>
-        {tooltipElement}
+        {tooltipEl}
         {children}
       </Link>
     );
@@ -70,7 +72,7 @@ export default function Button({
       disabled={disabled}
       {...props}
     >
-      {tooltipElement}
+      {tooltipEl}
       {children}
     </button>
   );

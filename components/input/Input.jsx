@@ -1,46 +1,81 @@
-import React from "react";
+import { Lock } from "react-feather";
 import { twMerge } from "tailwind-merge";
-
-const BASE_CLASSES =
-  "outline-none border w-full p-2 rounded-md bg-transparent transition-colors duration-150 border-neutral-600 focus:ring-1 focus:ring-blue-500/30";
-const ERROR_CLASSES =
-  "border-red-500 focus:ring-red-500/30 focus:border-red-500";
-const DISABLED_CLASSES = "opacity-50 cursor-not-allowed";
+import { Icon } from "@/components";
 
 export default function Input({
-  label = "",
+  id = "",
+  name = "",
   type = "text",
+  label = "label",
+  value = "",
   placeholder = "",
-  error = null,
+  autoComplete = "off",
+  autoFocus = false,
   disabled = false,
-  className = "",
+  locked = false,
+  containerClassName = "",
+  inputClassName = "",
+  labelClassName = "",
+  required = false,
+  onChange = () => null,
+  onKeyDown = () => null,
+  onBlur = () => null,
+  onFocus = () => null,
   ...props
 }) {
-  const id = label ? label.toLowerCase().replace(/\s+/g, "-") : undefined;
-
-  const classes = twMerge(
-    BASE_CLASSES,
-    error && ERROR_CLASSES,
-    disabled && DISABLED_CLASSES,
-    className,
-  );
+  const lockedClasses = locked && "opacity-50 cursor-not-allowed";
 
   return (
-    <div className="w-full flex flex-col items-start gap-1">
-      {label && (
-        <label htmlFor={id} className="text-sm text-neutral-400">
-          {label}
-        </label>
+    <div
+      className={twMerge(
+        "w-full min-w-40 relative",
+        containerClassName,
+        lockedClasses,
       )}
+    >
+      <label
+        htmlFor={id}
+        className={twMerge(
+          "mb-1.5 text-sm ml-px flex gap-1 items-center justify-start pl-px",
+          labelClassName,
+          lockedClasses,
+        )}
+        style={{ color: "var(--text-2)" }}
+      >
+        {label}
+        {locked && (
+          <Icon name={Lock} size="xs" style={{ color: "var(--text-3)" }} />
+        )}
+      </label>
       <input
-        id={id}
         type={type}
-        placeholder={placeholder}
+        name={name || id}
+        id={id}
         disabled={disabled}
+        autoFocus={autoFocus}
+        autoComplete={autoComplete}
+        value={value}
+        placeholder={placeholder}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        required={required}
+        className={twMerge(
+          "border w-full px-3 py-2.5 rounded-lg bg-transparent outline-none",
+          "transition-colors duration-100",
+          "focus:border-(--border-hi)",
+          "disabled:cursor-not-allowed disabled:opacity-40",
+          "placeholder:text-(--text-3)",
+          inputClassName,
+          lockedClasses,
+        )}
+        style={{
+          borderColor: "var(--border-med)",
+          color: "var(--text-1)",
+        }}
         {...props}
-        className={classes}
       />
-      {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   );
 }
