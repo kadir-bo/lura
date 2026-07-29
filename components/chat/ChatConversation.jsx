@@ -113,31 +113,34 @@ export default function ChatConversation({
 
   // ── Shared context args ───────────────────────────────────────────────────
 
-  const sharedArgs = useMemo(() => ({
-    conversationId,
-    model: conversation?.model || DEFAULT_MODEL,
-    deleteMessage,
-    addMessage,
-    getMessages,
-    updateConversation,
-    updateUserProfile,
-    updateProjectMemory,
-    userProfile,
-    projectId: conversation?.projectId || null,
-    project,
-  }), [
-    addMessage,
-    conversation?.model,
-    conversation?.projectId,
-    conversationId,
-    deleteMessage,
-    getMessages,
-    project,
-    updateConversation,
-    updateProjectMemory,
-    updateUserProfile,
-    userProfile,
-  ]);
+  const sharedArgs = useMemo(
+    () => ({
+      conversationId,
+      model: conversation?.model || DEFAULT_MODEL,
+      deleteMessage,
+      addMessage,
+      getMessages,
+      updateConversation,
+      updateUserProfile,
+      updateProjectMemory,
+      userProfile,
+      projectId: conversation?.projectId || null,
+      project,
+    }),
+    [
+      addMessage,
+      conversation?.model,
+      conversation?.projectId,
+      conversationId,
+      deleteMessage,
+      getMessages,
+      project,
+      updateConversation,
+      updateProjectMemory,
+      updateUserProfile,
+      userProfile,
+    ],
+  );
 
   // ── Handlers ──────────────────────────────────────────────────────────────
 
