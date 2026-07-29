@@ -168,8 +168,7 @@ export default function PhraseCarousel({
 
   return (
     <h2
-      className={`font-medium text-neutral-300 font-serif tracking-tighter relative ${className}`}
-      style={{ minHeight: "2.5rem" }}
+      className={`relative min-h-10 font-serif font-medium tracking-tighter text-neutral-300 ${className}`}
     >
       <AnimatePresence mode="wait">
         <AnimatedPhrase key={index} phrase={phrases[index]} pattern={pattern} />

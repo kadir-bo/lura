@@ -9,14 +9,7 @@ const companyOf = (m) => m.company || m.provider || "Other";
 
 function FastBadge() {
   return (
-    <span
-      className="shrink-0 inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded"
-      style={{
-        background: "color-mix(in oklab, var(--interactive) 18%, transparent)",
-        color: "var(--interactive)",
-        letterSpacing: "0.03em",
-      }}
-    >
+    <span className="shrink-0 inline-flex items-center gap-0.5 rounded bg-interactive/20 px-1.5 py-0.5 text-[10px] font-semibold tracking-[0.03em] text-interactive">
       <Zap size={9} className="fill-current" />
       Fast
     </span>
@@ -51,7 +44,7 @@ function Panel({ models, selectedModel, onSelect, onManage }) {
   );
 
   return (
-    <div className="flex flex-col" style={{ width: 280, maxHeight: 360 }}>
+    <div className="flex max-h-[360px] w-[280px] flex-col">
       {/* Search + quick manage access */}
       <div
         className="flex items-center gap-1.5 p-1.5 border-b border-border"
@@ -67,8 +60,7 @@ function Panel({ models, selectedModel, onSelect, onManage }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search models"
-            className="w-full pl-7 pr-2 py-1.5 rounded-lg text-sm outline-none"
-            style={{ background: "var(--surface)", color: "var(--text-1)" }}
+            className="w-full pl-7 pr-2 py-1.5 rounded-lg bg-surface text-text-primary text-sm outline-none"
           />
         </div>
         <button
@@ -109,12 +101,7 @@ function Panel({ models, selectedModel, onSelect, onManage }) {
                       onSelect(m.id);
                       setIsOpen(false);
                     }}
-                    className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-overlay outline-none"
-                    style={{
-                      background: active
-                        ? "var(--interactive-hover)"
-                        : "transparent",
-                    }}
+                    className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 text-left transition-colors duration-100 hover:bg-overlay outline-none ${active ? "bg-interactive-hover" : ""}`}
                   >
                     <span
                       className="text-sm truncate text-text-primary"
@@ -154,7 +141,7 @@ export default function ModelPicker({
         <span className="text-xs font-medium text-text-secondary">
           {currentLabel}
         </span>
-        <Icon name={ChevronDown} size="xs" style={{ color: "var(--text-3)" }} />
+        <Icon name={ChevronDown} size="xs" className="text-text-muted" />
       </DropdownTrigger>
 
       <DropdownContent

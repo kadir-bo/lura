@@ -80,23 +80,19 @@ export default function ModalProvider({ children }) {
       {modalStack.map((modal, i) => (
         <div
           key={i}
-          className="fixed inset-0 flex items-center justify-center"
-          style={{ background: "rgba(0,0,0,0.75)", zIndex: 9999 + i }}
+          className="fixed inset-0 flex items-center justify-center bg-black/75"
+          style={{ zIndex: 9999 + i }}
           onMouseDown={(e) => {
             // Only close the topmost modal when clicking its backdrop
             if (e.target === e.currentTarget) closeModal();
           }}
         >
           <div
-            className={`relative rounded-2xl shadow-lg w-full mx-4 border overflow-hidden ${
+            className={`relative w-full mx-4 overflow-hidden rounded-2xl border border-border-med bg-overlay shadow-lg ${
               modal.wide
                 ? "max-w-3xl max-h-[90vh]"
                 : "p-6 max-w-md max-h-[90vh] overflow-auto"
             }`}
-            style={{
-              background: "var(--overlay)",
-              borderColor: "var(--border-med)",
-            }}
           >
             {modal.component}
           </div>

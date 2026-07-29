@@ -14,27 +14,23 @@ import {
 const CONFIGS = {
   success: {
     icon: CheckCircle,
-    accent: "#22c55e",
-    bg: "rgba(34,197,94,0.08)",
-    border: "rgba(34,197,94,0.2)",
+    className: "border-success/20 bg-success/10",
+    iconClassName: "text-success",
   },
   error: {
     icon: AlertCircle,
-    accent: "#ef4444",
-    bg: "rgba(239,68,68,0.08)",
-    border: "rgba(239,68,68,0.2)",
+    className: "border-danger/20 bg-danger/10",
+    iconClassName: "text-danger",
   },
   warning: {
     icon: AlertTriangle,
-    accent: "#f59e0b",
-    bg: "rgba(245,158,11,0.08)",
-    border: "rgba(245,158,11,0.2)",
+    className: "border-warning/20 bg-warning/10",
+    iconClassName: "text-warning",
   },
   info: {
     icon: Info,
-    accent: "#3b82f6",
-    bg: "rgba(59,130,246,0.08)",
-    border: "rgba(59,130,246,0.2)",
+    className: "border-interactive/20 bg-interactive/10",
+    iconClassName: "text-interactive",
   },
 };
 
@@ -81,18 +77,14 @@ export default function Message({
       transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       className={twMerge(
         "relative flex items-center gap-3 pl-4 pr-3 py-3 rounded-xl shadow-lg overflow-hidden",
-        "min-w-52 max-w-80 border",
+        "min-w-52 max-w-80 border bg-elevated",
+        config.className,
         className,
       )}
-      style={{
-        background: "var(--elevated)",
-        borderColor: config.border,
-      }}
     >
       <IconComp
         size={16}
-        className="shrink-0"
-        style={{ color: config.accent }}
+        className={`shrink-0 ${config.iconClassName}`}
       />
 
       <p

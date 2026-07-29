@@ -72,7 +72,7 @@ export default function ProviderSection() {
     <div className="flex flex-col gap-8">
       {/* Active Providers */}
       <Section title="Aktive Provider">
-        {/* NVIDIA NIM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â built-in, not removable */}
+        {/* NVIDIA NIM — built-in, not removable */}
         <div
           className="flex items-center justify-between py-2.5 border-b border-border"
         >
@@ -81,14 +81,7 @@ export default function ProviderSection() {
               <p className="text-sm font-medium text-text-primary">
                 {NVIDIA_NIM_PROVIDER.name}
               </p>
-              <span
-                className="text-[10px] font-semibold px-1.5 py-0.5 rounded"
-                style={{
-                  background: "var(--interactive)",
-                  color: "var(--bg)",
-                  letterSpacing: "0.03em",
-                }}
-              >
+              <span className="rounded bg-interactive px-1.5 py-0.5 text-[10px] font-semibold tracking-[0.03em] text-background">
                 DEFAULT
               </span>
             </div>
@@ -99,7 +92,7 @@ export default function ProviderSection() {
           <Icon
             name={Server}
             size="sm"
-            style={{ color: "var(--text-3)", flexShrink: 0 }}
+            className="text-text-muted shrink-0"
           />
         </div>
 
@@ -123,7 +116,7 @@ export default function ProviderSection() {
               onClick={() => confirmRemove(p)}
               className="ml-3 p-1.5 rounded-md transition-colors duration-100 hover:bg-overlay shrink-0"
             >
-              <Icon name={Trash2} size="xs" style={{ color: "var(--text-3)" }} />
+              <Icon name={Trash2} size="xs" className="text-text-muted" />
             </button>
           </div>
         ))}
@@ -137,7 +130,7 @@ export default function ProviderSection() {
 
       {/* Add Provider */}
       <Section
-        title="Provider hinzufÃƒÆ’Ã‚Â¼gen"
+        title="Provider hinzufügen"
         action={
           <SaveBtn
             hasChanges={hasChanges}
@@ -155,22 +148,16 @@ export default function ProviderSection() {
               onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
               placeholder={placeholder}
               type={type}
-              className="w-full px-3 py-2 rounded-lg text-sm outline-none border"
-              style={{
-                background: "var(--elevated)",
-                borderColor: "var(--border-med)",
-                color: "var(--text-1)",
-              }}
+              className="w-full rounded-lg border border-border-med bg-elevated px-3 py-2 text-sm text-text-primary outline-none"
             />
           ))}
           <button
             onClick={addProvider}
             disabled={!form.name.trim() || !form.apiUrl.trim()}
-            className="flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium transition-colors duration-100 disabled:opacity-40 hover:bg-overlay border outline-none mt-1"
-            style={{ borderColor: "var(--border)", color: "var(--text-2)" }}
+            className="flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-text-secondary transition-colors duration-100 disabled:opacity-40 hover:bg-overlay border border-border outline-none mt-1"
           >
             <Icon name={Plus} size="xs" />
-            Provider hinzufÃƒÆ’Ã‚Â¼gen
+            Provider hinzufügen
           </button>
         </div>
       </Section>

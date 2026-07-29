@@ -42,11 +42,7 @@ export default function ChatPageShell({
               tabs.length === 1 ? (
                 <span
                   key={key}
-                  className="px-1 pb-2.5 text-xl font-semibold border-b-2 -mb-px"
-                  style={{
-                    borderColor: "var(--text-1)",
-                    color: "var(--text-1)",
-                  }}
+                  className="px-1 pb-2.5 text-xl font-semibold border-b-2 -mb-px border-text-primary text-text-primary"
                 >
                   {label}
                 </span>
@@ -54,13 +50,7 @@ export default function ChatPageShell({
                 <button
                   key={key}
                   onClick={() => onTabChange(key)}
-                  className="px-4 py-2 text-sm capitalize transition-colors duration-150 border-b-2 -mb-px outline-none"
-                  style={{
-                    borderColor:
-                      activeTab === key ? "var(--text-1)" : "transparent",
-                    color:
-                      activeTab === key ? "var(--text-1)" : "var(--text-2)",
-                  }}
+                  className={`px-4 py-2 text-sm capitalize transition-colors duration-150 border-b-2 -mb-px outline-none ${activeTab === key ? "border-text-primary text-text-primary" : "border-transparent text-text-secondary"}`}
                 >
                   {label}
                   <span

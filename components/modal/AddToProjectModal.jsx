@@ -37,7 +37,7 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
         onSuccess?.(selectedProjectId);
         closeModal();
       } else {
-        openMessage("Failed to add chat to project ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â check console for details", "error");
+        openMessage("Failed to add chat to project — check console for details", "error");
       }
     } catch (err) {
       console.error("addConversationToProject threw:", err);
@@ -61,10 +61,10 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
 
       {fetching ? (
         <p className="text-sm py-4 text-center text-text-muted">
-          Loading projectsÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦
+          Loading projects…
         </p>
       ) : fetchFailed ? (
-        <p className="text-sm py-4 text-center" style={{ color: "#ef4444" }}>
+        <p className="py-4 text-center text-sm text-danger">
           Failed to load projects. Check the browser console for details.
         </p>
       ) : projects.length === 0 ? (
@@ -85,18 +85,7 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
             <li key={p.id}>
               <button
                 onClick={() => setSelectedProjectId(p.id)}
-                className="w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors duration-100"
-                style={{
-                  background:
-                    selectedProjectId === p.id
-                      ? "var(--interactive-hover)"
-                      : "transparent",
-                  color: "var(--text-2)",
-                  border:
-                    selectedProjectId === p.id
-                      ? "1px solid var(--border-med)"
-                      : "1px solid transparent",
-                }}
+                className={`w-full rounded-lg border px-3 py-2.5 text-left text-sm text-text-secondary transition-colors duration-100 ${selectedProjectId === p.id ? "border-border-med bg-interactive-hover" : "border-transparent"}`}
               >
                 {p.title}
               </button>
@@ -116,7 +105,7 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
             disabled={!selectedProjectId || loading || fetching}
             filled
           >
-            {loading ? "AddingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Add to Project"}
+            {loading ? "Adding…" : "Add to Project"}
           </PrimaryButton>
         )}
       </div>

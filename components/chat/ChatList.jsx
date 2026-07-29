@@ -286,13 +286,12 @@ const ChatListItem = React.memo(
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.12 }}
                   >
-                    <ProcessingIndicator message="Generating titleÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" />
+                    <ProcessingIndicator message="Generating title…" />
                   </motion.span>
                 ) : (
                   <motion.span
                     key={item.id + "-title"}
-                    className="truncate text-sm"
-                    style={{ color: isActive ? "var(--text-1)" : "var(--text-2)" }}
+                    className={`truncate text-sm ${isActive ? "text-text-primary" : "text-text-secondary"}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

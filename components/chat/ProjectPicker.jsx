@@ -21,7 +21,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
   );
 
   return (
-    <div className="flex flex-col" style={{ width: 240, maxHeight: 320 }}>
+    <div className="flex max-h-80 w-60 flex-col">
       <div
         className="flex items-center gap-1.5 p-1.5 border-b border-border"
       >
@@ -36,8 +36,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search projects"
-            className="w-full pl-7 pr-2 py-1.5 rounded-lg text-sm outline-none"
-            style={{ background: "var(--surface)", color: "var(--text-1)" }}
+            className="w-full pl-7 pr-2 py-1.5 rounded-lg bg-surface text-text-primary text-sm outline-none"
           />
         </div>
       </div>
@@ -48,13 +47,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
             onSelect(null);
             setIsOpen(false);
           }}
-          className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-overlay outline-none"
-          style={{
-            background:
-              selectedProjectId == null
-                ? "var(--interactive-hover)"
-                : "transparent",
-          }}
+          className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 text-left transition-colors duration-100 hover:bg-overlay outline-none ${selectedProjectId == null ? "bg-interactive-hover" : ""}`}
         >
           <span className="text-sm truncate text-text-primary">
             No Project
@@ -85,12 +78,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
                   onSelect(p);
                   setIsOpen(false);
                 }}
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-overlay outline-none"
-                style={{
-                  background: active
-                    ? "var(--interactive-hover)"
-                    : "transparent",
-                }}
+                className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 text-left transition-colors duration-100 hover:bg-overlay outline-none ${active ? "bg-interactive-hover" : ""}`}
               >
                 <span
                   className="text-sm truncate text-text-primary"
@@ -123,11 +111,11 @@ export default function ProjectPicker({
   return (
     <Dropdown>
       <DropdownTrigger className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 hover:bg-overlay transition-colors duration-100">
-        <Icon name={Folder} size="xs" style={{ color: "var(--text-3)" }} />
+        <Icon name={Folder} size="xs" className="text-text-muted" />
         <span className="text-xs font-medium text-text-secondary">
           {currentLabel}
         </span>
-        <Icon name={ChevronDown} size="xs" style={{ color: "var(--text-3)" }} />
+        <Icon name={ChevronDown} size="xs" className="text-text-muted" />
       </DropdownTrigger>
 
       <DropdownContent

@@ -50,9 +50,9 @@ const SUGGESTION_CHIPS = [
   },
   {
     id: "explain",
-    label: "ErklÃƒÂ¤ren",
+    label: "Erklären",
     icon: BookOpen,
-    prompt: "ErklÃƒÂ¤re mir etwas Interessantes.",
+    prompt: "Erkläre mir etwas Interessantes.",
   },
   {
     id: "code",
@@ -323,13 +323,11 @@ export default function ChatInterface({
       <motion.div
         layout="size"
         className={twMerge(
-          "flex flex-col",
-          isExpanded ? "rounded-2xl" : "rounded-full",
-          "border border-border-med focus-within:border-border-hi",
+          "flex flex-col bg-elevated",
+          "border border-border-med focus-within:border-border-hi rounded-3xl",
           "transition-colors duration-150",
           containerClassName,
         )}
-        style={{ background: "var(--elevated)" }}
         transition={{ duration: 0.15, ease: "easeOut" }}
       >
         {/* Hidden file input */}
@@ -351,16 +349,13 @@ export default function ChatInterface({
           placeholder={placeholder}
           className={twMerge(
             "resize-none w-full px-4 pt-3.5 pb-2",
-            "text-sm leading-relaxed bg-transparent outline-none",
+            "text-sm leading-relaxed bg-transparent text-text-primary outline-none",
             "overflow-y-auto no-scrollbar",
             "disabled:opacity-40 disabled:cursor-not-allowed",
             "placeholder:text-text-muted",
             textareaClassName,
           )}
-          style={{
-            color: "var(--text-1)",
-            maxHeight: textAreaGrowHeight,
-          }}
+          style={{ maxHeight: textAreaGrowHeight }}
           value={localUserInput}
           onChange={handleChange}
           onInput={syncHeight}
@@ -374,7 +369,7 @@ export default function ChatInterface({
 
         {/* Bottom strip */}
         <div className="flex items-center px-2 pb-2 pt-1 gap-1">
-          {/* Attach Ã¢â‚¬â€ opens dropdown */}
+          {/* Attach — opens dropdown */}
           <DropdownMenu
             dropdownList={ADD_MENU_ITEMS}
             onClick={(_, item) => {
@@ -388,12 +383,12 @@ export default function ChatInterface({
               attachmentButtonClassName,
             )}
           >
-            <span style={{ color: "var(--text-2)" }}>
+            <span className="text-text-secondary">
               <Icon name={Plus} size="sm" />
             </span>
           </DropdownMenu>
 
-          {/* Project selector Ã¢â‚¬â€ only for a brand-new, un-started chat */}
+          {/* Project selector — only for a brand-new, un-started chat */}
           {canPickProject && (
             <ProjectPicker
               projects={availableProjects}
@@ -405,7 +400,7 @@ export default function ChatInterface({
 
           <div className="flex-1" />
 
-          {/* Model selector Ã¢â‚¬â€ quick access + manage */}
+          {/* Model selector — quick access + manage */}
           <ModelPicker
             models={availableModels}
             selectedModel={selectedModel}
@@ -429,10 +424,9 @@ export default function ChatInterface({
             <button
               className={twMerge(
                 baseButtonCls,
-                "bg-interactive hover:bg-white/90",
+                "bg-interactive text-background hover:bg-white/90",
                 sendButtonClassName,
               )}
-              style={{ color: "var(--bg)" }}
               aria-label="Stop generation"
               onClick={stopGeneration}
             >
@@ -447,11 +441,10 @@ export default function ChatInterface({
               className={twMerge(
                 baseButtonCls,
                 canSend
-                  ? "bg-interactive hover:bg-white/90"
-                  : "bg-overlay border border-border cursor-not-allowed",
+                  ? "bg-interactive text-background hover:bg-white/90"
+                  : "bg-overlay border border-border text-text-muted cursor-not-allowed",
                 sendButtonClassName,
               )}
-              style={{ color: canSend ? "var(--bg)" : "var(--text-3)" }}
               aria-label="Send message"
               onClick={handleSend}
               disabled={!canSend}
@@ -465,11 +458,7 @@ export default function ChatInterface({
       {/* Suggestion chips */}
       {showChips && !conversationId && (
         <div
-          className="flex flex-wrap gap-2 mt-2.5 px-1 justify-center transition-opacity duration-200"
-          style={{
-            opacity: hasContent || isLoading ? 0 : 1,
-            pointerEvents: hasContent || isLoading ? "none" : "auto",
-          }}
+          className={`mt-2.5 flex flex-wrap justify-center gap-2 px-1 transition-opacity duration-200 ${hasContent || isLoading ? "pointer-events-none opacity-0" : "opacity-100"}`}
           aria-hidden={hasContent || isLoading}
         >
           {SUGGESTION_CHIPS.map((chip) => (
@@ -477,18 +466,9 @@ export default function ChatInterface({
               key={chip.id}
               onClick={() => handleChipClick(chip.prompt)}
               tabIndex={hasContent || isLoading ? -1 : 0}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors duration-100 hover:bg-overlay"
-              style={{
-                borderColor: "var(--border)",
-                color: "var(--text-2)",
-                background: "var(--surface)",
-              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-surface text-xs font-medium text-text-secondary transition-colors duration-100 hover:bg-overlay"
             >
-              <Icon
-                name={chip.icon}
-                size="xs"
-                style={{ color: "var(--text-3)" }}
-              />
+              <Icon name={chip.icon} size="xs" className="text-text-muted" />
               {chip.label}
             </button>
           ))}

@@ -31,14 +31,9 @@ export default function Searchbar({
     <div
       className={twMerge(
         "w-full flex items-center rounded-xl overflow-hidden transition-colors duration-150",
-        "border",
+        `border bg-elevated ${query ? "border-border-hi text-text-primary" : "border-border-med text-text-secondary"}`,
         className,
       )}
-      style={{
-        borderColor: query ? "var(--border-hi)" : "var(--border-med)",
-        background: "var(--elevated)",
-        color: query ? "var(--text-1)" : "var(--text-2)",
-      }}
       {...props}
     >
       <span

@@ -45,12 +45,8 @@ export default function Button({
         "opacity-0 pointer-events-none",
         "transition-opacity duration-150 group-hover/btn:opacity-100 group-hover/btn:delay-500",
         TOOLTIP_POSITIONS[tooltipPosition] ?? TOOLTIP_POSITIONS.top,
+        "bg-overlay border-border text-text-primary",
       )}
-      style={{
-        background: "var(--overlay)",
-        borderColor: "var(--border)",
-        color: "var(--text-1)",
-      }}
     >
       {tooltip}
     </span>

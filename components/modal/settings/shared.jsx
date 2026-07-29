@@ -4,7 +4,7 @@ import React from "react";
 import { Zap } from "react-feather";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Animated save button ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â only visible when there are unsaved changes.
+// Animated save button — only visible when there are unsaved changes.
 export function SaveBtn({ hasChanges, loading, saved, onClick }) {
   return (
     <AnimatePresence>
@@ -16,10 +16,9 @@ export function SaveBtn({ hasChanges, loading, saved, onClick }) {
           transition={{ duration: 0.15 }}
           onClick={onClick}
           disabled={loading}
-          className="text-xs font-medium px-3 py-1.5 rounded-lg transition-colors duration-100 disabled:opacity-50"
-          style={{ background: "var(--interactive)", color: "var(--bg)" }}
+          className="bg-interactive text-background text-xs font-medium px-3 py-1.5 rounded-lg transition-colors duration-100 disabled:opacity-50"
         >
-          {loading ? "SavingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : saved ? "Saved!" : "Save"}
+          {loading ? "Saving…" : saved ? "Saved!" : "Save"}
         </motion.button>
       )}
     </AnimatePresence>
@@ -46,14 +45,7 @@ export function Section({ title, children, action }) {
 // Small accent badge marking a benchmarked high-throughput model.
 export function FastBadge() {
   return (
-    <span
-      className="shrink-0 inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded"
-      style={{
-        background: "color-mix(in oklab, var(--interactive) 18%, transparent)",
-        color: "var(--interactive)",
-        letterSpacing: "0.03em",
-      }}
-    >
+    <span className="shrink-0 inline-flex items-center gap-0.5 rounded bg-interactive/20 px-1.5 py-0.5 text-[10px] font-semibold tracking-[0.03em] text-interactive">
       <Zap size={9} className="fill-current" />
       Fast
     </span>
@@ -88,12 +80,7 @@ export function SettingsInput({
       disabled={disabled}
       placeholder={placeholder}
       type={type}
-      className="text-sm px-3 py-1.5 rounded-lg border outline-none transition-colors duration-100 w-52 disabled:opacity-40"
-      style={{
-        background: "var(--elevated)",
-        borderColor: "var(--border-med)",
-        color: "var(--text-1)",
-      }}
+      className="w-52 rounded-lg border border-border-med bg-elevated px-3 py-1.5 text-sm text-text-primary outline-none transition-colors duration-100 disabled:opacity-40"
     />
   );
 }

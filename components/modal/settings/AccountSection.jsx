@@ -55,22 +55,17 @@ export default function AccountSection() {
           <button
             onClick={handleLogout}
             disabled={loggingOut}
-            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors duration-100 hover:bg-overlay disabled:opacity-50"
-            style={{ borderColor: "var(--border-med)", color: "var(--text-2)" }}
+            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-border-med text-text-secondary transition-colors duration-100 hover:bg-overlay disabled:opacity-50"
           >
             <Icon name={LogOut} size="xs" />
-            {loggingOut ? "Logging outÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Log out"}
+            {loggingOut ? "Logging out…" : "Log out"}
           </button>
         </div>
       </Section>
 
       <Section title="Danger Zone">
         <div
-          className="flex items-center justify-between p-3 rounded-lg"
-          style={{
-            background: "rgba(239,68,68,0.04)",
-            border: "1px solid rgba(239,68,68,0.2)",
-          }}
+          className="flex items-center justify-between rounded-lg border border-danger/20 bg-danger/5 p-3"
         >
           <div>
             <p className="text-sm font-medium text-text-primary">
@@ -82,8 +77,7 @@ export default function AccountSection() {
           </div>
           <button
             onClick={() => openModal(<DeleteAccountModal />)}
-            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors duration-100 hover:bg-red-500/10 shrink-0"
-            style={{ borderColor: "rgba(239,68,68,0.5)", color: "#ef4444" }}
+            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-danger/50 px-3 py-1.5 text-xs font-medium text-danger transition-colors duration-100 hover:bg-danger/10"
           >
             <Icon name={Trash2} size="xs" />
             Delete Account

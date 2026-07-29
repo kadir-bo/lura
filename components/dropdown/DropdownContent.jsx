@@ -148,7 +148,7 @@ export default function DropdownContent({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.15, ease: "easeOut" }}
         className={twMerge(
-          "border rounded-xl shadow-md overflow-hidden p-1 max-w-52",
+          "border border-border-med bg-overlay rounded-xl shadow-md overflow-hidden p-1 max-w-52",
           className,
         )}
         style={{
@@ -157,8 +157,6 @@ export default function DropdownContent({
           left: `${left}px`,
           zIndex: 9999,
           minWidth: typeof minWidth === "number" ? `${minWidth}px` : minWidth,
-          background: "var(--overlay)",
-          borderColor: "var(--border-med)",
         }}
         {...props}
       >

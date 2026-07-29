@@ -24,29 +24,10 @@ export default function Toggle({
         e.stopPropagation();
         if (!disabled) onChange?.(!checked);
       }}
-      className="relative inline-flex shrink-0 items-center rounded-full transition-colors duration-150 outline-none disabled:opacity-40"
-      style={{
-        width: 32,
-        height: 18,
-        background: checked
-          ? "var(--interactive)"
-          : indeterminate
-            ? "var(--border-hi)"
-            : "var(--border-med)",
-      }}
+      className={`relative inline-flex h-[18px] w-8 shrink-0 items-center rounded-full transition-colors duration-150 outline-none disabled:opacity-40 ${checked ? "bg-interactive" : indeterminate ? "bg-border-hi" : "bg-border-med"}`}
     >
       <span
-        className="inline-block rounded-full transition-transform duration-150"
-        style={{
-          width: 12,
-          height: 12,
-          background: on ? "var(--bg)" : "var(--text-3)",
-          transform: checked
-            ? "translateX(17px)"
-            : indeterminate
-              ? "translateX(10px)"
-              : "translateX(3px)",
-        }}
+        className={`inline-block h-3 w-3 rounded-full transition-transform duration-150 ${on ? "bg-background" : "bg-text-muted"} ${checked ? "translate-x-[17px]" : indeterminate ? "translate-x-2.5" : "translate-x-[3px]"}`}
       />
     </button>
   );

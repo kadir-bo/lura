@@ -28,8 +28,7 @@ export default function AuthFormShell({
         >
           {title && (
             <h2
-              className="text-xl font-semibold mb-7 tracking-tight text-foreground"
-              style={{ fontFamily: "var(--font-brand)" }}
+              className="font-display text-xl font-semibold mb-7 tracking-tight text-foreground"
             >
               {title}
             </h2>

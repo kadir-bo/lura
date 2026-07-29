@@ -46,7 +46,7 @@ export default function DeleteConfirmModal({ title, description, onConfirm }) {
           onClick={handleConfirm}
           disabled={loading}
         >
-          {loading ? "DeletingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Delete"}
+          {loading ? "Deleting…" : "Delete"}
         </PrimaryButton>
       </div>
     </div>

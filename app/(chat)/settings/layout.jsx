@@ -16,8 +16,7 @@ export default function SettingsLayout({ children }) {
       <div className="wrapper flex flex-col md:flex-row gap-6 items-start">
         {/* Sidebar Navigation */}
         <aside
-          className="w-full md:w-48 fixed md:sticky left-0 md:top-16 z-99 shrink-0 px-5 py-2 md:py-0 md:px-0 md:bg-transparent border-t md:border-none"
-          style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+          className="w-full md:w-48 fixed md:sticky left-0 md:top-16 z-99 shrink-0 px-5 py-2 md:py-0 md:px-0 md:bg-transparent border-t border-border bg-surface md:border-none"
         >
           <nav aria-label="Settings navigation">
             <ul className="space-y-1 flex flex-row md:flex-col justify-center">

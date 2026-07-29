@@ -56,10 +56,7 @@ export default function CreateProjectModal() {
       </div>
 
       {/* Info box */}
-      <div
-        className="rounded-xl p-4 flex flex-col gap-2"
-        style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-      >
+      <div className="flex flex-col gap-2 rounded-xl border border-border bg-surface p-4">
         <p className="text-xs font-semibold text-text-secondary">
           How to use projects
         </p>
@@ -86,12 +83,7 @@ export default function CreateProjectModal() {
             onKeyDown={handleKeyDown}
             placeholder="Example Project"
             autoFocus
-            className="px-3 py-2.5 rounded-lg text-sm outline-none border transition-colors"
-            style={{
-              background: "var(--elevated)",
-              borderColor: "var(--border-med)",
-              color: "var(--text-1)",
-            }}
+            className="rounded-lg border border-border-med bg-elevated px-3 py-2.5 text-sm text-text-primary outline-none transition-colors"
           />
         </div>
 
@@ -104,12 +96,7 @@ export default function CreateProjectModal() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe your project, goals, subject, etc."
             rows={4}
-            className="px-3 py-2.5 rounded-lg text-sm outline-none border resize-none transition-colors"
-            style={{
-              background: "var(--elevated)",
-              borderColor: "var(--border-med)",
-              color: "var(--text-1)",
-            }}
+            className="resize-none rounded-lg border border-border-med bg-elevated px-3 py-2.5 text-sm text-text-primary outline-none transition-colors"
           />
         </div>
       </div>
@@ -125,13 +112,9 @@ export default function CreateProjectModal() {
         <button
           onClick={handleCreate}
           disabled={!name.trim() || loading}
-          className="px-4 py-2 rounded-lg text-sm font-medium transition-colors outline-none disabled:opacity-40"
-          style={{
-            background: "var(--interactive)",
-            color: "var(--bg)",
-          }}
+          className="rounded-lg bg-interactive px-4 py-2 text-sm font-medium text-background outline-none transition-colors disabled:opacity-40"
         >
-          {loading ? "CreatingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Create project"}
+          {loading ? "Creating…" : "Create project"}
         </button>
       </div>
     </div>

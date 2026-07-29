@@ -162,16 +162,16 @@ function GeneralSettingsPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Profile Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      {/* ── Profile ── */}
       <div className="flex flex-col gap-5">
         <h4 className="font-medium">Profile</h4>
-        <div className="flex flex-col gap-6 p-4 rounded-xl border" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+        <div className="flex flex-col gap-6 p-4 rounded-xl border border-border bg-surface">
           <AvatarUpload
             currentUrl={avatarPreview}
             displayName={fullName}
             onChange={handleAvatarChange}
           />
-          <hr style={{ borderColor: "var(--border)" }} />
+          <hr className="border-border" />
           <div className="flex flex-col md:flex-row items-start justify-between gap-6">
             <Input
               label="What would you like to be called?"
@@ -200,10 +200,10 @@ function GeneralSettingsPage() {
         />
       </div>
 
-      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Preferences Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      {/* ── Preferences ── */}
       <div className="flex flex-col gap-5">
         <h4 className="font-medium">Preferences</h4>
-        <div className="flex flex-col gap-4 p-4 rounded-xl border" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+        <div className="flex flex-col gap-4 p-4 rounded-xl border border-border bg-surface">
           <Textarea
             label="What personal preferences should Claude consider in responses?"
             value={modelPreferences}
@@ -222,12 +222,12 @@ function GeneralSettingsPage() {
         />
       </div>
 
-      <hr style={{ borderColor: "var(--border)" }} />
+      <hr className="border-border" />
 
-      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Default Model Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      {/* ── Default Model ── */}
       <div className="flex flex-col gap-5">
         <h4 className="font-medium">Default Model</h4>
-        <div className="flex flex-col gap-6 p-4 rounded-xl border" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+        <div className="flex flex-col gap-6 p-4 rounded-xl border border-border bg-surface">
           <Select
             id="default-model"
             name="default-model"

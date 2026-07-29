@@ -130,7 +130,7 @@ export default function ProjectsPage() {
       onSortChange={setSortBy}
       searchQuery={searchQuery}
       onSearch={setSearchQuery}
-      searchPlaceholder="Search projectsÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
+      searchPlaceholder="Search projects…"
       selectedCount={selectedCount}
       hasItems={hasProjects}
       itemType={selectedCount === 1 ? "project" : "projects"}
@@ -138,8 +138,7 @@ export default function ProjectsPage() {
       primaryAction={
         <button
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100 outline-none"
-          style={{ background: "var(--interactive)", color: "var(--bg)" }}
+          className="flex items-center gap-1.5 rounded-lg bg-interactive px-3.5 py-1.5 text-sm font-medium text-background outline-none transition-colors duration-100"
         >
           <Icon name={Plus} size="xs" />
           New project
@@ -149,8 +148,7 @@ export default function ProjectsPage() {
         hasProjects && selectedCount > 0 ? (
           <button
             onClick={handleDeleteAction}
-            className="px-3 py-1.5 rounded-lg text-sm transition-colors hover:bg-red-400/10 outline-none"
-            style={{ color: "#ef4444" }}
+            className="rounded-lg px-3 py-1.5 text-sm text-danger transition-colors hover:bg-red-400/10 outline-none"
           >
             Delete {selectedCount}
           </button>
@@ -184,8 +182,7 @@ export default function ProjectsPage() {
               </p>
               <button
                 onClick={openCreateModal}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors outline-none"
-                style={{ background: "var(--interactive)", color: "var(--bg)" }}
+                className="flex items-center gap-1.5 rounded-lg bg-interactive px-4 py-2 text-sm font-medium text-background outline-none transition-colors"
               >
                 <Icon name={Plus} size="xs" />
                 Create your first project

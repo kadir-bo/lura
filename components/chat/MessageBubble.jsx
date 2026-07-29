@@ -150,7 +150,7 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
 
   const canAnimate = !isStreaming && !isEditing && !menuOpen;
 
-  /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Action button shared styles ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
+  /* ── Action button shared styles ─────────────────────────────────── */
   const actionBtnCls =
     "outline-none border-none min-w-0 cursor-pointer p-1.5 rounded-md transition-colors duration-100 hover:bg-elevated";
 
@@ -253,8 +253,7 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                         <div className="relative group/code">
                           <button
                             onClick={() => handleCopy(getCodeText(children))}
-                            className="absolute right-2 top-2 flex items-center gap-1 text-[11px] opacity-0 group-hover/code:opacity-100 transition-opacity duration-150 px-2 py-1 rounded-md cursor-pointer border border-border hover:border-border-med"
-                            style={{ background: "var(--overlay)", color: "var(--text-2)" }}
+                            className="absolute right-2 top-2 flex items-center gap-1 rounded-md border border-border bg-overlay px-2 py-1 text-[11px] text-text-secondary opacity-0 transition-opacity duration-150 group-hover/code:opacity-100 hover:border-border-med cursor-pointer"
                           >
                             <Icon name={CopyIcon.icon} size="xs" />
                             {CopyIcon.text}
@@ -287,8 +286,7 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                 {actions.map(({ id, Icon: actionIcon, onClick, title }) => (
                   <button
                     key={id}
-                    className={actionBtnCls}
-                    style={{ color: "var(--text-3)" }}
+                    className={`${actionBtnCls} text-text-muted`}
                     onClick={onClick}
                     title={title}
                   >
@@ -299,10 +297,9 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                 {/* Version navigation */}
                 {!isUser && hasVersions && (
                   <>
-                    <div className="w-px h-3 mx-0.5" style={{ background: "var(--border-med)" }} />
+                    <div className="mx-0.5 h-3 w-px bg-border-med" />
                     <button
-                      className={actionBtnCls}
-                      style={{ color: versionIdx === 0 ? "var(--text-4)" : "var(--text-3)" }}
+                      className={`${actionBtnCls} text-text-muted disabled:opacity-40`}
                       onClick={() =>
                         setVersionOffset((offset) =>
                           Math.min(allVersions.length - 1, offset + 1),
@@ -317,8 +314,7 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                       {versionIdx + 1}/{allVersions.length}
                     </span>
                     <button
-                      className={actionBtnCls}
-                      style={{ color: versionIdx === allVersions.length - 1 ? "var(--text-4)" : "var(--text-3)" }}
+                      className={`${actionBtnCls} text-text-muted disabled:opacity-40`}
                       onClick={() =>
                         setVersionOffset((offset) => Math.max(0, offset - 1))
                       }
@@ -337,15 +333,13 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
               <div className="flex items-center gap-1 justify-end mt-1">
                 <button
                   onClick={handleEditCancel}
-                  className={actionBtnCls}
-                  style={{ color: "var(--text-2)" }}
+                  className={`${actionBtnCls} text-text-secondary`}
                 >
                   <Icon name={X} size="xs" />
                 </button>
                 <button
                   onClick={handleEditSubmit}
-                  className={actionBtnCls}
-                  style={{ color: "var(--text-2)" }}
+                  className={`${actionBtnCls} text-text-secondary`}
                 >
                   <Icon name={Check} size="xs" />
                 </button>

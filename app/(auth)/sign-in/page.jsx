@@ -41,7 +41,7 @@ export default function SignInPage() {
         title="Sign In"
         error={error}
         footer={
-          <span style={{ color: "var(--text-2)" }}>
+          <span className="text-text-secondary">
             <Link
               href="/reset-password"
               className="block mb-2 hover:text-foreground transition-colors"

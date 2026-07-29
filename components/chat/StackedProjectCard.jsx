@@ -124,8 +124,7 @@ export default function StackedProjectCard({
             animate={{ opacity: 0.4, y: 6, scaleX: 0.97 }}
             exit={{ opacity: 0, y: -4, scaleX: 0.97 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-x-0 top-0 h-full rounded-xl border border-neutral-500/15 bg-neutral-950/40 pointer-events-none"
-            style={{ zIndex: 1 }}
+            className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-full rounded-xl border border-neutral-500/15 bg-neutral-950/40"
           />
         )}
         {!isExpanded && stackDepth >= 2 && (
@@ -135,8 +134,7 @@ export default function StackedProjectCard({
             animate={{ opacity: 0.25, y: 12, scaleX: 0.94 }}
             exit={{ opacity: 0, y: -8, scaleX: 0.94 }}
             transition={{ duration: 0.2, delay: 0.03 }}
-            className="absolute inset-x-0 top-0 h-full rounded-xl border border-neutral-500/10 bg-neutral-950/30 pointer-events-none"
-            style={{ zIndex: 0 }}
+            className="pointer-events-none absolute inset-x-0 top-0 z-0 h-full rounded-xl border border-neutral-500/10 bg-neutral-950/30"
           />
         )}
       </AnimatePresence>
@@ -145,7 +143,7 @@ export default function StackedProjectCard({
       <motion.div
         layout
         className={twMerge(
-          "relative flex flex-col w-full border rounded-xl cursor-pointer select-none transition-colors duration-150",
+          "relative z-[2] flex flex-col w-full border rounded-xl cursor-pointer select-none transition-colors duration-150",
           "border-neutral-500/20 bg-neutral-950/10 shadow shadow-neutral-950/10",
           "hover:border-neutral-500/40 hover:bg-neutral-950/60",
           isExpanded && "border-neutral-500/35 bg-neutral-950/80",
@@ -155,7 +153,6 @@ export default function StackedProjectCard({
             !isSelected &&
             "border-neutral-500/50 bg-neutral-950",
         )}
-        style={{ zIndex: 2 }}
         onClick={handleHeaderClick}
         onMouseDown={(e) => onLongPressStart(e, id)}
         onMouseUp={onLongPressCancel}

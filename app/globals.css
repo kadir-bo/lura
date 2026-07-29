@@ -84,6 +84,7 @@
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
   --font-sans: var(--font-ui);
+  --font-display: var(--font-brand);
   --font-mono: var(--font-code);
 }
 

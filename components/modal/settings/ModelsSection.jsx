@@ -82,7 +82,7 @@ export default function ModelsSection() {
     );
   }, [providerModels, search]);
 
-  // Two-level tree: connection provider ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ company ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ models
+  // Two-level tree: connection provider → company → models
   const tree = useMemo(() => {
     const provMap = {};
     filtered.forEach((m) => {
@@ -143,7 +143,7 @@ export default function ModelsSection() {
     [providerModels, enabledIds],
   );
 
-  // All models grouped by company ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â used by the "Set Default" selector
+  // All models grouped by company — used by the "Set Default" selector
   const allByCompany = useMemo(() => {
     const map = {};
     providerModels.forEach((m) => {
@@ -156,7 +156,7 @@ export default function ModelsSection() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Default Model ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â used for new chats. Selectable from ALL models. */}
+      {/* Default Model — used for new chats. Selectable from ALL models. */}
       <Section title="Default Model">
         <FieldRow label="Set Default">
           <select
@@ -169,7 +169,7 @@ export default function ModelsSection() {
                 {list.map((m) => (
                   <option key={m.id} value={m.id}>
                     {m.label}
-                    {m.fast ? " ÃƒÂ¢Ã…Â¡Ã‚Â¡" : ""}
+                    {m.fast ? " ⚡" : ""}
                   </option>
                 ))}
               </optgroup>
@@ -178,7 +178,7 @@ export default function ModelsSection() {
         </FieldRow>
       </Section>
 
-      {/* Enabled Models ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â header + search fully sticky, covering the list */}
+      {/* Enabled Models — header + search fully sticky, covering the list */}
       <div className="flex flex-col">
         <div
           className="sticky -top-7 z-20 flex flex-col gap-3 -mx-8 px-8 pt-2 pb-3 bg-background"
@@ -202,7 +202,7 @@ export default function ModelsSection() {
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Modelle suchenÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
+              placeholder="Modelle suchen…"
               className="w-full pl-8 pr-3 py-2 rounded-lg text-sm outline-none border border-border-med bg-surface text-text-primary"
             />
           </div>
@@ -236,7 +236,7 @@ export default function ModelsSection() {
                   key={provider}
                   className="rounded-xl border border-border"
                 >
-                  {/* Provider header ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â expand toggle + master switch */}
+                  {/* Provider header — expand toggle + master switch */}
                   <div className="flex items-center gap-2 px-2.5 py-2.5">
                     <button
                       onClick={() => toggleExpand(provider)}
@@ -264,7 +264,7 @@ export default function ModelsSection() {
                     />
                   </div>
 
-                  {/* Companies ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ models */}
+                  {/* Companies → models */}
                   <AnimatePresence initial={false}>
                     {expanded && (
                       <motion.div

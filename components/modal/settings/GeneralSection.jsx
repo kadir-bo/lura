@@ -132,14 +132,9 @@ export default function GeneralSection() {
         <textarea
           value={modelPreferences}
           onChange={(e) => setModelPreferences(e.target.value)}
-          placeholder="e.g. Keep explanations brief and to the pointÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
+          placeholder="e.g. Keep explanations brief and to the point…"
           rows={4}
-          className="w-full text-sm px-3 py-2.5 rounded-lg border outline-none resize-none"
-          style={{
-            background: "var(--elevated)",
-            borderColor: "var(--border-med)",
-            color: "var(--text-1)",
-          }}
+          className="w-full resize-none rounded-lg border border-border-med bg-elevated px-3 py-2.5 text-sm text-text-primary outline-none"
         />
       </Section>
     </div>

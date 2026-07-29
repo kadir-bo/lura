@@ -70,7 +70,7 @@ export default function PrivacySection() {
                 handleAdd();
               }
             }}
-            placeholder="e.g. I prefer concise answersÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ (Enter to add)"
+            placeholder="e.g. I prefer concise answers… (Enter to add)"
             rows={2}
             className="w-full text-sm px-3 py-2.5 rounded-lg border border-border-med bg-elevated text-text-primary outline-none resize-none pr-16"
           />
