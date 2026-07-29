@@ -26,8 +26,7 @@ export default function ChatPageShell({
       {/* Optional page title (for pages with multi-tab sub-navigation) */}
       {pageTitle && (
         <h1
-          className="text-xl font-semibold -mb-3"
-          style={{ color: "var(--text-1)" }}
+          className="text-xl font-semibold -mb-3 text-text-primary"
         >
           {pageTitle}
         </h1>
@@ -36,8 +35,7 @@ export default function ChatPageShell({
       {/* Page header: tabs + sort + primary action */}
       {tabs && (
         <div
-          className="flex items-end justify-between border-b"
-          style={{ borderColor: "var(--border)" }}
+          className="flex items-end justify-between border-b border-border"
         >
           <div className="flex items-center gap-1">
             {tabs.map(({ key, label, count }) =>
@@ -66,8 +64,7 @@ export default function ChatPageShell({
                 >
                   {label}
                   <span
-                    className="ml-2 text-xs"
-                    style={{ color: "var(--text-3)" }}
+                    className="ml-2 text-xs text-text-muted"
                   >
                     {count}
                   </span>

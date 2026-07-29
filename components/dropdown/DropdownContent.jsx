@@ -18,6 +18,11 @@ export default function DropdownContent({
 }) {
   const { isOpen, setIsOpen, triggerRef } = useDropdown();
   const [shouldRender, setShouldRender] = useState(false);
+  const [position, setPosition] = useState({
+    top: 2,
+    left: 0,
+    minWidth: "auto",
+  });
   const contentRef = useRef(null);
 
   useOnClickOutside(contentRef, (e) => {
@@ -26,11 +31,10 @@ export default function DropdownContent({
   });
 
   useEffect(() => {
-    if (!isOpen) {
-      setShouldRender(false);
-      return;
-    }
-    requestAnimationFrame(() => setShouldRender(true));
+    const animationFrame = requestAnimationFrame(() =>
+      setShouldRender(isOpen),
+    );
+    return () => cancelAnimationFrame(animationFrame);
   }, [isOpen]);
 
   const getPosition = useCallback(() => {
@@ -106,18 +110,21 @@ export default function DropdownContent({
     return { top, left, minWidth: triggerRect.width };
   }, [side, align, sideOffset, alignOffset, triggerRef]);
 
-  const [, forceUpdate] = useState({});
-  const requestUpdate = useCallback(() => forceUpdate({}), []);
+  const updatePosition = useCallback(() => {
+    setPosition(getPosition());
+  }, [getPosition]);
 
   useEffect(() => {
     if (!isOpen || !shouldRender) return;
-    window.addEventListener("resize", requestUpdate);
-    window.addEventListener("scroll", requestUpdate, true);
+    const animationFrame = requestAnimationFrame(updatePosition);
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
     return () => {
-      window.removeEventListener("resize", requestUpdate);
-      window.removeEventListener("scroll", requestUpdate, true);
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
     };
-  }, [isOpen, shouldRender, requestUpdate]);
+  }, [isOpen, shouldRender, updatePosition]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -130,7 +137,7 @@ export default function DropdownContent({
 
   if (!isOpen) return null;
 
-  const { top, left, minWidth } = getPosition();
+  const { top, left, minWidth } = position;
 
   const content = (
     <AnimatePresence>
@@ -141,7 +148,7 @@ export default function DropdownContent({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.15, ease: "easeOut" }}
         className={twMerge(
-          "border rounded-xl shadow-[var(--shadow-md)] overflow-hidden p-1 max-w-52",
+          "border rounded-xl shadow-md overflow-hidden p-1 max-w-52",
           className,
         )}
         style={{

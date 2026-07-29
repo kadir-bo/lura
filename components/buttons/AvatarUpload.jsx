@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Camera, X } from "react-feather";
 import { Icon, UserProfileImage } from "@/components";
 
@@ -8,13 +8,11 @@ const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
 export default function AvatarUpload({ currentUrl, displayName, onChange }) {
   const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState(currentUrl || null);
+  const [preview, setPreview] = useState();
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setPreview(currentUrl || null);
-  }, [currentUrl]);
+  const displayedPreview = preview === undefined ? currentUrl || null : preview;
 
   const handleFile = (file) => {
     if (!file) return;
@@ -65,13 +63,13 @@ export default function AvatarUpload({ currentUrl, displayName, onChange }) {
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
       >
-        <UserProfileImage image={preview} username={displayName} size="lg" />
+        <UserProfileImage image={displayedPreview} username={displayName} size="lg" />
 
         <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           <Icon name={Camera} size="sm" className="text-white" />
         </div>
 
-        {preview && (
+        {displayedPreview && (
           <button
             onClick={handleRemove}
             className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-neutral-700 border border-neutral-600 flex items-center justify-center hover:bg-neutral-600 transition-colors z-10"

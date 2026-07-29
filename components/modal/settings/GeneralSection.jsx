@@ -92,8 +92,7 @@ export default function GeneralSection() {
         }
       >
         <div
-          className="flex items-center gap-4 pb-4 border-b"
-          style={{ borderColor: "var(--border)" }}
+          className="flex items-center gap-4 pb-4 border-b border-border"
         >
           <AvatarUpload
             currentUrl={avatarPreview}
@@ -127,13 +126,13 @@ export default function GeneralSection() {
           />
         }
       >
-        <p className="text-xs mb-2" style={{ color: "var(--text-3)" }}>
+        <p className="text-xs mb-2 text-text-muted">
           Lura will consider these preferences across all conversations.
         </p>
         <textarea
           value={modelPreferences}
           onChange={(e) => setModelPreferences(e.target.value)}
-          placeholder="e.g. Keep explanations brief and to the point…"
+          placeholder="e.g. Keep explanations brief and to the pointÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
           rows={4}
           className="w-full text-sm px-3 py-2.5 rounded-lg border outline-none resize-none"
           style={{

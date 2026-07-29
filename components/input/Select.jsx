@@ -29,11 +29,10 @@ export default function Select({
     <div className={twMerge("w-full min-w-40 relative", containerClassName, lockedCls)}>
       <label
         htmlFor={id}
-        className={twMerge("mb-1.5 text-sm ml-px flex gap-1 items-center pl-px", labelClassName, lockedCls)}
-        style={{ color: "var(--text-2)" }}
+        className={twMerge("mb-1.5 text-sm ml-px flex gap-1 items-center pl-px text-text-secondary", labelClassName, lockedCls)}
       >
         {label}
-        {locked && <Icon name={Lock} size="xs" style={{ color: "var(--text-3)" }} />}
+        {locked && <Icon name={Lock} size="xs" className="text-text-muted" />}
       </label>
 
       {list.length > 0 && (
@@ -45,16 +44,11 @@ export default function Select({
         >
           <PrimaryButton
             className={twMerge(
-              "border w-full px-3 py-2.5 rounded-lg outline-none justify-between text-left",
+              "border border-border-med w-full px-3 py-2.5 rounded-lg bg-transparent text-text-primary outline-none justify-between text-left",
               !value && "opacity-60",
               buttonClassName,
               lockedCls,
             )}
-            style={{
-              borderColor: "var(--border-med)",
-              background: "transparent",
-              color: "var(--text-1)",
-            }}
             disabled={locked || disabled}
             aria-label={label}
             onBlur={onBlur}

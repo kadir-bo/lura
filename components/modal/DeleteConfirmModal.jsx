@@ -23,19 +23,18 @@ export default function DeleteConfirmModal({ title, description, onConfirm }) {
   return (
     <div>
       <h2
-        className="text-base font-semibold mb-1.5"
-        style={{ color: "var(--text-1)" }}
+        className="text-base font-semibold mb-1.5 text-text-primary"
       >
         Delete {title}
       </h2>
 
-      <p className="text-sm" style={{ color: "var(--text-2)" }}>
+      <p className="text-sm text-text-secondary">
         {description}
       </p>
 
       <div className="flex justify-end items-center gap-2 mt-6">
         <PrimaryButton
-          className="w-max px-3 border-(--border-med) hover:border-(--border-hi) justify-center"
+          className="w-max px-3 border-border-med hover:border-border-hi justify-center"
           onClick={closeModal}
           disabled={loading}
         >
@@ -47,7 +46,7 @@ export default function DeleteConfirmModal({ title, description, onConfirm }) {
           onClick={handleConfirm}
           disabled={loading}
         >
-          {loading ? "Deleting…" : "Delete"}
+          {loading ? "DeletingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Delete"}
         </PrimaryButton>
       </div>
     </div>

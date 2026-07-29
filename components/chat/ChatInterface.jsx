@@ -50,9 +50,9 @@ const SUGGESTION_CHIPS = [
   },
   {
     id: "explain",
-    label: "Erklären",
+    label: "ErklÃƒÂ¤ren",
     icon: BookOpen,
-    prompt: "Erkläre mir etwas Interessantes.",
+    prompt: "ErklÃƒÂ¤re mir etwas Interessantes.",
   },
   {
     id: "code",
@@ -98,11 +98,11 @@ export default function ChatInterface({
 
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
-  const initializedModelRef = useRef(false);
 
   const [localUserInput, setLocalUserInput] = useState("");
   const [hasContent, setHasContent] = useState(false);
-  const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedModelOverride, setSelectedModel] = useState(null);
   const [providerModels, setProviderModels] = useState(MODELS);
   const [pickedProject, setPickedProject] = useState(null);
   const [availableProjects, setAvailableProjects] = useState([]);
@@ -166,16 +166,10 @@ export default function ChatInterface({
     return subscribeToProjects((list) => setAvailableProjects(list));
   }, [canPickProject, subscribeToProjects]);
 
-  // Sync default model from user profile once on load
-  useEffect(() => {
-    if (
-      !initializedModelRef.current &&
-      userProfile?.preferences?.defaultModel
-    ) {
-      setSelectedModel(userProfile.preferences.defaultModel);
-      initializedModelRef.current = true;
-    }
-  }, [userProfile]);
+  const selectedModel =
+    selectedModelOverride ??
+    userProfile?.preferences?.defaultModel ??
+    DEFAULT_MODEL;
 
   const availableModels = useMemo(() => {
     const enabled = userProfile?.preferences?.enabledModels;
@@ -196,6 +190,7 @@ export default function ChatInterface({
   const resetInput = useCallback(() => {
     setLocalUserInput("");
     setHasContent(false);
+    setIsExpanded(false);
     const el = textareaRef.current;
     if (el) {
       el.style.height = "auto";
@@ -210,15 +205,14 @@ export default function ChatInterface({
     el.style.height = "auto";
     if (!el.value) {
       setHasContent(false);
+      setIsExpanded(false);
       return;
     }
     setHasContent(true);
     el.style.height = `${Math.min(el.scrollHeight, textAreaGrowHeight)}px`;
+    const lineHeight = parseInt(getComputedStyle(el).lineHeight, 10);
+    setIsExpanded(el.scrollHeight > lineHeight + 24);
   }, [textAreaGrowHeight]);
-
-  useEffect(() => {
-    syncHeight();
-  }, [localUserInput, syncHeight]);
 
   useEffect(() => {
     if (!isLoading && !isMobile) {
@@ -329,8 +323,9 @@ export default function ChatInterface({
       <motion.div
         layout="size"
         className={twMerge(
-          "flex flex-col rounded-[1.25rem]",
-          "border border-(--border-med) focus-within:border-(--border-hi)",
+          "flex flex-col",
+          isExpanded ? "rounded-2xl" : "rounded-full",
+          "border border-border-med focus-within:border-border-hi",
           "transition-colors duration-150",
           containerClassName,
         )}
@@ -359,7 +354,7 @@ export default function ChatInterface({
             "text-sm leading-relaxed bg-transparent outline-none",
             "overflow-y-auto no-scrollbar",
             "disabled:opacity-40 disabled:cursor-not-allowed",
-            "placeholder:text-(--text-3)",
+            "placeholder:text-text-muted",
             textareaClassName,
           )}
           style={{
@@ -368,6 +363,7 @@ export default function ChatInterface({
           }}
           value={localUserInput}
           onChange={handleChange}
+          onInput={syncHeight}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           rows={1}
@@ -378,7 +374,7 @@ export default function ChatInterface({
 
         {/* Bottom strip */}
         <div className="flex items-center px-2 pb-2 pt-1 gap-1">
-          {/* Attach — opens dropdown */}
+          {/* Attach Ã¢â‚¬â€ opens dropdown */}
           <DropdownMenu
             dropdownList={ADD_MENU_ITEMS}
             onClick={(_, item) => {
@@ -388,7 +384,7 @@ export default function ChatInterface({
             contentSideOffset={8}
             triggerClassName={twMerge(
               baseButtonCls,
-              "border border-(--border) hover:border-(--border-med) hover:bg-(--overlay)",
+              "border border-border hover:border-border-med hover:bg-overlay",
               attachmentButtonClassName,
             )}
           >
@@ -397,7 +393,7 @@ export default function ChatInterface({
             </span>
           </DropdownMenu>
 
-          {/* Project selector — only for a brand-new, un-started chat */}
+          {/* Project selector Ã¢â‚¬â€ only for a brand-new, un-started chat */}
           {canPickProject && (
             <ProjectPicker
               projects={availableProjects}
@@ -409,7 +405,7 @@ export default function ChatInterface({
 
           <div className="flex-1" />
 
-          {/* Model selector — quick access + manage */}
+          {/* Model selector Ã¢â‚¬â€ quick access + manage */}
           <ModelPicker
             models={availableModels}
             selectedModel={selectedModel}
@@ -433,7 +429,7 @@ export default function ChatInterface({
             <button
               className={twMerge(
                 baseButtonCls,
-                "bg-(--interactive) hover:bg-white/90",
+                "bg-interactive hover:bg-white/90",
                 sendButtonClassName,
               )}
               style={{ color: "var(--bg)" }}
@@ -451,8 +447,8 @@ export default function ChatInterface({
               className={twMerge(
                 baseButtonCls,
                 canSend
-                  ? "bg-(--interactive) hover:bg-white/90"
-                  : "bg-(--overlay) border border-(--border) cursor-not-allowed",
+                  ? "bg-interactive hover:bg-white/90"
+                  : "bg-overlay border border-border cursor-not-allowed",
                 sendButtonClassName,
               )}
               style={{ color: canSend ? "var(--bg)" : "var(--text-3)" }}
@@ -481,7 +477,7 @@ export default function ChatInterface({
               key={chip.id}
               onClick={() => handleChipClick(chip.prompt)}
               tabIndex={hasContent || isLoading ? -1 : 0}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors duration-100 hover:bg-(--overlay)"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors duration-100 hover:bg-overlay"
               style={{
                 borderColor: "var(--border)",
                 color: "var(--text-2)",

@@ -130,7 +130,7 @@ export default function ProjectsPage() {
       onSortChange={setSortBy}
       searchQuery={searchQuery}
       onSearch={setSearchQuery}
-      searchPlaceholder="Search projects…"
+      searchPlaceholder="Search projectsÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
       selectedCount={selectedCount}
       hasItems={hasProjects}
       itemType={selectedCount === 1 ? "project" : "projects"}
@@ -174,12 +174,12 @@ export default function ProjectsPage() {
       ) : (
         <div className="flex flex-col items-center gap-4 py-16 text-center">
           {searchQuery ? (
-            <p className="text-sm" style={{ color: "var(--text-3)" }}>
+            <p className="text-sm text-text-muted">
               No projects found for &ldquo;{searchQuery}&rdquo;
             </p>
           ) : (
             <>
-              <p className="text-sm" style={{ color: "var(--text-3)" }}>
+              <p className="text-sm text-text-muted">
                 No projects yet
               </p>
               <button

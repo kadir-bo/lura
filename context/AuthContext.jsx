@@ -38,7 +38,7 @@ export default function AuthProvider({ children }) {
     });
 
     return unsubscribe;
-  }, []);
+  }, [auth]);
 
   // Sign up with email and password
   const signUp = async (email, password) => {

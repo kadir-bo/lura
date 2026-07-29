@@ -22,7 +22,7 @@ export default function ChatLayout({ children }) {
 
   return (
     <PrivateRoute>
-      <main className="h-dvh flex flex-row" style={{ background: "var(--bg)" }}>
+      <main className="h-dvh flex flex-row bg-background">
         <Sidebar
           isOpen={isOpen}
           isMobile={isMobile}
@@ -30,8 +30,7 @@ export default function ChatLayout({ children }) {
           handleToggleSidebar={handleToggleSidebar}
         />
         <div
-          className="flex flex-col w-full relative"
-          style={{ background: "var(--bg)" }}
+          className="flex flex-col w-full relative bg-background"
         >
           <ChatHeader
             handleToggleSidebar={handleToggleSidebar}

@@ -42,8 +42,7 @@ export default function Searchbar({
       {...props}
     >
       <span
-        className="flex items-center justify-center pl-3 shrink-0"
-        style={{ color: "var(--text-3)" }}
+        className="flex items-center justify-center pl-3 shrink-0 text-text-muted"
       >
         <Icon name={Search} size="sm" />
       </span>
@@ -53,8 +52,7 @@ export default function Searchbar({
         name="query"
         id="query"
         placeholder={placeholder}
-        className="w-full px-3 py-1.5 outline-none bg-transparent placeholder:text-(--text-3)"
-        style={{ color: "var(--text-1)" }}
+        className="w-full px-3 py-1.5 outline-none bg-transparent placeholder:text-text-muted text-text-primary"
         onChange={handleChange}
         value={query}
         autoComplete="off"
@@ -63,8 +61,7 @@ export default function Searchbar({
       {query && (
         <button
           onClick={handleClear}
-          className="flex items-center justify-center pr-3 shrink-0 transition-colors hover:text-foreground"
-          style={{ color: "var(--text-3)" }}
+          className="flex items-center justify-center pr-3 shrink-0 transition-colors hover:text-foreground text-text-muted"
           type="button"
           aria-label="Clear search"
         >

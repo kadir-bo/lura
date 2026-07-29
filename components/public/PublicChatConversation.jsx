@@ -28,17 +28,17 @@ export default function PublicChatConversation({
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages.length]);
+  }, [messages.length, scrollToBottom]);
 
   useEffect(() => {
     if (!currentStreamResponse) return;
     scrollToBottomIfLocked();
-  }, [currentStreamResponse]);
+  }, [currentStreamResponse, scrollToBottomIfLocked]);
 
   useEffect(() => {
     if (!processingMessage) return;
     scrollToBottom();
-  }, [processingMessage]);
+  }, [processingMessage, scrollToBottom]);
 
   // ── Render ────────────────────────────────────────────────────────────────
 

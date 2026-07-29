@@ -28,24 +28,21 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(message.content);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [pressPoint, setPressPoint] = useState(null);
+  const [didScroll, setDidScroll] = useState(false);
 
   // Version navigation
   const allVersions = message.versions?.length > 0
     ? [...message.versions, { content: message.content, model: message.model }]
     : [];
   const hasVersions = allVersions.length > 1;
-  const [versionIdx, setVersionIdx] = useState(() => Math.max(0, allVersions.length - 1));
-
-  useEffect(() => {
-    if (allVersions.length > 0) setVersionIdx(allVersions.length - 1);
-  }, [allVersions.length]);
+  const [versionOffset, setVersionOffset] = useState(0);
+  const versionIdx = Math.max(0, allVersions.length - 1 - versionOffset);
 
   const displayContent = hasVersions ? (allVersions[versionIdx]?.content ?? message.content) : message.content;
 
   const textareaRef = useRef(null);
   const bubbleRef = useRef(null);
-  const pressPointRef = useRef(null);
-  const didScrollRef = useRef(false);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const isMobile = useIsMobile();
@@ -142,20 +139,20 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
     onMouseLeave: (e) => { if (!menuOpen) lp.onMouseLeave(e); },
     onTouchStart: (e) => {
       if (menuOpen) return;
-      didScrollRef.current = false;
-      pressPointRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      setDidScroll(false);
+      setPressPoint({ x: e.touches[0].clientX, y: e.touches[0].clientY });
       lp.onTouchStart(e);
     },
-    onTouchMove: (e) => { if (!menuOpen) { didScrollRef.current = true; lp.onTouchMove(e); } },
+    onTouchMove: (e) => { if (!menuOpen) { setDidScroll(true); lp.onTouchMove(e); } },
     onTouchEnd: (e) => { if (!menuOpen) lp.onTouchEnd(e); },
     onContextMenu: (e) => { if (!menuOpen) lp.onContextMenu(e); },
   };
 
   const canAnimate = !isStreaming && !isEditing && !menuOpen;
 
-  /* ── Action button shared styles ─────────────────────────────────── */
+  /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Action button shared styles ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
   const actionBtnCls =
-    "outline-none border-none min-w-0 cursor-pointer p-1.5 rounded-md transition-colors duration-100 hover:bg-[var(--elevated)]";
+    "outline-none border-none min-w-0 cursor-pointer p-1.5 rounded-md transition-colors duration-100 hover:bg-elevated";
 
   return (
     <>
@@ -166,7 +163,7 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
             <MobileContextMenu
               actions={actions}
               bubbleRef={bubbleRef}
-              pressPoint={pressPointRef.current}
+              pressPoint={pressPoint}
               isUser={isUser}
               onClose={closeMenu}
             />
@@ -205,17 +202,16 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                   ? clsx(
                       "w-max max-w-[88%] lg:max-w-[76%] border rounded-2xl px-4 py-2.5",
                       isEditing
-                        ? "border-[var(--border-hi)] bg-transparent"
-                        : "border-[var(--border-med)] bg-[var(--elevated)]",
+                        ? "border-border-hi bg-transparent"
+                        : "border-border-med bg-elevated",
                     )
                   : "",
               )}
               style={{
-                ...(isUser && !isEditing ? { background: "var(--elevated)" } : {}),
                 ...(isUser ? { borderRadius: getBubbleRadius(message.content) } : {}),
               }}
               whileTap={
-                canAnimate && !didScrollRef.current && isMobile
+                canAnimate && !didScroll && isMobile
                   ? { y: 2, transition: { type: "spring", stiffness: 600, damping: 30 } }
                   : {}
               }
@@ -231,14 +227,12 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                       onChange={handleTextareaChange}
                       onKeyDown={handleEditKeyDown}
                       rows={1}
-                      className="w-full resize-none bg-transparent text-sm outline-none overflow-hidden"
-                      style={{ color: "var(--text-1)" }}
+                      className="w-full resize-none bg-transparent text-sm outline-none overflow-hidden text-text-primary"
                     />
                   </div>
                 ) : (
                   <p
-                    className="text-sm leading-relaxed whitespace-pre-wrap"
-                    style={{ color: "var(--text-1)" }}
+                    className="text-sm leading-relaxed whitespace-pre-wrap text-text-primary"
                   >
                     {message.content}
                   </p>
@@ -259,7 +253,7 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                         <div className="relative group/code">
                           <button
                             onClick={() => handleCopy(getCodeText(children))}
-                            className="absolute right-2 top-2 flex items-center gap-1 text-[11px] opacity-0 group-hover/code:opacity-100 transition-opacity duration-150 px-2 py-1 rounded-md cursor-pointer border border-[var(--border)] hover:border-[var(--border-med)]"
+                            className="absolute right-2 top-2 flex items-center gap-1 text-[11px] opacity-0 group-hover/code:opacity-100 transition-opacity duration-150 px-2 py-1 rounded-md cursor-pointer border border-border hover:border-border-med"
                             style={{ background: "var(--overlay)", color: "var(--text-2)" }}
                           >
                             <Icon name={CopyIcon.icon} size="xs" />
@@ -309,19 +303,25 @@ export default function MessageBubble({ message, onRegenerate, onEdit }) {
                     <button
                       className={actionBtnCls}
                       style={{ color: versionIdx === 0 ? "var(--text-4)" : "var(--text-3)" }}
-                      onClick={() => setVersionIdx((i) => Math.max(0, i - 1))}
+                      onClick={() =>
+                        setVersionOffset((offset) =>
+                          Math.min(allVersions.length - 1, offset + 1),
+                        )
+                      }
                       disabled={versionIdx === 0}
                       title="Previous version"
                     >
                       <Icon name={ChevronLeft} size="xs" />
                     </button>
-                    <span className="text-[10px] tabular-nums px-0.5" style={{ color: "var(--text-3)" }}>
+                    <span className="text-[10px] tabular-nums px-0.5 text-text-muted">
                       {versionIdx + 1}/{allVersions.length}
                     </span>
                     <button
                       className={actionBtnCls}
                       style={{ color: versionIdx === allVersions.length - 1 ? "var(--text-4)" : "var(--text-3)" }}
-                      onClick={() => setVersionIdx((i) => Math.min(allVersions.length - 1, i + 1))}
+                      onClick={() =>
+                        setVersionOffset((offset) => Math.max(0, offset - 1))
+                      }
                       disabled={versionIdx === allVersions.length - 1}
                       title="Next version"
                     >

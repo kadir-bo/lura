@@ -89,11 +89,11 @@ export default function ChatCard({
   `;
   const projectClasses = "";
   const selectedClasses = isSelected
-    ? "border-[var(--border-hi)] bg-[var(--elevated)]"
-    : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-med)] hover:bg-[var(--elevated)]";
+    ? "border-border-hi bg-elevated"
+    : "border-border bg-surface hover:border-border-med hover:bg-elevated";
   const dropdownActiveClasses =
     isDropdownOpen && !isSelected
-      ? "border-[var(--border-med)] bg-[var(--elevated)]"
+      ? "border-border-med bg-elevated"
       : "";
 
   return (
@@ -119,7 +119,7 @@ export default function ChatCard({
           {title || "Untitled Chat"}
         </h4>
         {project && (
-          <span className="flex gap-1 mt-1.5 text-xs truncate max-w-48 leading-none" style={{ color: "var(--text-3)" }}>
+          <span className="flex gap-1 mt-1.5 text-xs truncate max-w-48 leading-none text-text-muted">
             <Icon name={Folder} size="xs" className="shrink-0" />
             {project.title}
           </span>

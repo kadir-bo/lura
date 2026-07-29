@@ -19,14 +19,20 @@ export default function ModelsSection() {
   const [enabledIds, setEnabledIds] = useState(
     () => new Set(userProfile?.preferences?.enabledModels ?? []),
   );
-  const [defaultModel, setDefaultModel] = useState(
-    userProfile?.preferences?.defaultModel || DEFAULT_MODEL,
+  const [defaultModelOverride, setDefaultModel] = useState(null);
+  const [expandedProvidersOverride, setExpandedProviders] = useState(null);
+  const defaultModel =
+    defaultModelOverride ??
+    userProfile?.preferences?.defaultModel ??
+    DEFAULT_MODEL;
+  const defaultExpandedProviders = useMemo(
+    () => new Set(providerModels.map((m) => m.provider || "NVIDIA NIM")),
+    [providerModels],
   );
-  const [expandedProviders, setExpandedProviders] = useState(() => new Set());
+  const expandedProviders = expandedProvidersOverride ?? defaultExpandedProviders;
 
   useEffect(() => {
     let cancelled = false;
-    setLoadingModels(true);
     fetch("/api/providers/models")
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((data) => {
@@ -48,11 +54,6 @@ export default function ModelsSection() {
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    const saved = userProfile?.preferences?.defaultModel || DEFAULT_MODEL;
-    setDefaultModel(saved);
-  }, [userProfile?.preferences?.defaultModel]);
 
   // Auto-persist any change to enabled models / default model.
   // The default model may be ANY model (it does not need to be enabled).
@@ -81,7 +82,7 @@ export default function ModelsSection() {
     );
   }, [providerModels, search]);
 
-  // Two-level tree: connection provider → company → models
+  // Two-level tree: connection provider ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ company ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ models
   const tree = useMemo(() => {
     const provMap = {};
     filtered.forEach((m) => {
@@ -100,23 +101,12 @@ export default function ModelsSection() {
       .sort((a, b) => a.provider.localeCompare(b.provider));
   }, [filtered]);
 
-  // Expand all providers once models load
-  useEffect(() => {
-    if (providerModels.length) {
-      setExpandedProviders(
-        new Set([
-          ...new Set(providerModels.map((m) => m.provider || "NVIDIA NIM")),
-        ]),
-      );
-    }
-  }, [providerModels]);
-
   const isExpanded = (provider) =>
     search.trim() ? true : expandedProviders.has(provider);
 
   const toggleExpand = (provider) => {
-    setExpandedProviders((prev) => {
-      const next = new Set(prev);
+    setExpandedProviders((previous) => {
+      const next = new Set(previous ?? defaultExpandedProviders);
       next.has(provider) ? next.delete(provider) : next.add(provider);
       return next;
     });
@@ -153,7 +143,7 @@ export default function ModelsSection() {
     [providerModels, enabledIds],
   );
 
-  // All models grouped by company — used by the "Set Default" selector
+  // All models grouped by company ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â used by the "Set Default" selector
   const allByCompany = useMemo(() => {
     const map = {};
     providerModels.forEach((m) => {
@@ -166,25 +156,20 @@ export default function ModelsSection() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Default Model — used for new chats. Selectable from ALL models. */}
+      {/* Default Model ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â used for new chats. Selectable from ALL models. */}
       <Section title="Default Model">
         <FieldRow label="Set Default">
           <select
             value={defaultModel}
             onChange={(e) => handleDefaultChange(e.target.value)}
-            className="text-sm px-3 py-1.5 rounded-lg border outline-none max-w-[220px]"
-            style={{
-              background: "var(--elevated)",
-              borderColor: "var(--border-med)",
-              color: "var(--text-1)",
-            }}
+            className="text-sm px-3 py-1.5 rounded-lg border border-border-med bg-elevated text-text-primary outline-none max-w-[220px]"
           >
             {allByCompany.map(([company, list]) => (
               <optgroup key={company} label={company}>
                 {list.map((m) => (
                   <option key={m.id} value={m.id}>
                     {m.label}
-                    {m.fast ? " ⚡" : ""}
+                    {m.fast ? " ÃƒÂ¢Ã…Â¡Ã‚Â¡" : ""}
                   </option>
                 ))}
               </optgroup>
@@ -193,20 +178,18 @@ export default function ModelsSection() {
         </FieldRow>
       </Section>
 
-      {/* Enabled Models — header + search fully sticky, covering the list */}
+      {/* Enabled Models ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â header + search fully sticky, covering the list */}
       <div className="flex flex-col">
         <div
-          className="sticky -top-7 z-20 flex flex-col gap-3 -mx-8 px-8 pt-2 pb-3"
-          style={{ background: "var(--bg)" }}
+          className="sticky -top-7 z-20 flex flex-col gap-3 -mx-8 px-8 pt-2 pb-3 bg-background"
         >
           <div
-            className="flex items-center justify-between pb-2 border-b"
-            style={{ borderColor: "var(--border)" }}
+            className="flex items-center justify-between pb-2 border-b border-border"
           >
-            <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>
+            <h3 className="text-sm font-semibold text-text-primary">
               Enabled Models
             </h3>
-            <span className="text-xs" style={{ color: "var(--text-3)" }}>
+            <span className="text-xs text-text-muted">
               {enabledModels.length} aktiv
             </span>
           </div>
@@ -214,19 +197,13 @@ export default function ModelsSection() {
             <Icon
               name={Search}
               size="xs"
-              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ color: "var(--text-3)" }}
+              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted"
             />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Modelle suchen…"
-              className="w-full pl-8 pr-3 py-2 rounded-lg text-sm outline-none border"
-              style={{
-                background: "var(--surface)",
-                borderColor: "var(--border-med)",
-                color: "var(--text-1)",
-              }}
+              placeholder="Modelle suchenÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"
+              className="w-full pl-8 pr-3 py-2 rounded-lg text-sm outline-none border border-border-med bg-surface text-text-primary"
             />
           </div>
         </div>
@@ -236,13 +213,12 @@ export default function ModelsSection() {
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="h-11 rounded-lg animate-pulse"
-                style={{ background: "var(--overlay)" }}
+                className="h-11 rounded-lg animate-pulse bg-overlay"
               />
             ))}
           </div>
         ) : tree.length === 0 ? (
-          <p className="text-xs text-center py-6" style={{ color: "var(--text-3)" }}>
+          <p className="text-xs text-center py-6 text-text-muted">
             Keine Modelle gefunden.
           </p>
         ) : (
@@ -258,10 +234,9 @@ export default function ModelsSection() {
               return (
                 <div
                   key={provider}
-                  className="rounded-xl border"
-                  style={{ borderColor: "var(--border)" }}
+                  className="rounded-xl border border-border"
                 >
-                  {/* Provider header — expand toggle + master switch */}
+                  {/* Provider header ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â expand toggle + master switch */}
                   <div className="flex items-center gap-2 px-2.5 py-2.5">
                     <button
                       onClick={() => toggleExpand(provider)}
@@ -270,16 +245,15 @@ export default function ModelsSection() {
                       <Icon
                         name={expanded ? ChevronDown : ChevronRight}
                         size="xs"
-                        style={{ color: "var(--text-3)" }}
+                        className="text-text-muted"
                       />
                       <span
-                        className="text-sm font-semibold truncate"
-                        style={{ color: "var(--text-1)" }}
+                        className="text-sm font-semibold truncate text-text-primary"
                       >
                         {provider}
                       </span>
                     </button>
-                    <span className="text-xs" style={{ color: "var(--text-3)" }}>
+                    <span className="text-xs text-text-muted">
                       {enabledCount}/{models.length}
                     </span>
                     <Toggle
@@ -290,7 +264,7 @@ export default function ModelsSection() {
                     />
                   </div>
 
-                  {/* Companies → models */}
+                  {/* Companies ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ models */}
                   <AnimatePresence initial={false}>
                     {expanded && (
                       <motion.div
@@ -301,15 +275,13 @@ export default function ModelsSection() {
                         className="overflow-hidden"
                       >
                         <div
-                          className="px-2 pb-2 pt-0.5 border-t"
-                          style={{ borderColor: "var(--border)" }}
+                          className="px-2 pb-2 pt-0.5 border-t border-border"
                         >
                           {companies.map(([company, list]) => (
                             <div key={company} className="flex flex-col">
                               {/* Company label */}
                               <p
-                                className="px-1.5 pt-3 pb-1 text-[11px] font-medium uppercase tracking-wider"
-                                style={{ color: "var(--text-3)" }}
+                                className="px-1.5 pt-3 pb-1 text-[11px] font-medium uppercase tracking-wider text-text-muted"
                               >
                                 {company}
                               </p>
@@ -319,11 +291,10 @@ export default function ModelsSection() {
                                 return (
                                   <div
                                     key={model.id}
-                                    className="flex items-center gap-2 pl-3 pr-1.5 py-1.5 rounded-lg hover:bg-(--overlay) transition-colors duration-100"
+                                    className="flex items-center gap-2 pl-3 pr-1.5 py-1.5 rounded-lg hover:bg-overlay transition-colors duration-100"
                                   >
                                     <p
-                                      className="text-sm truncate"
-                                      style={{ color: "var(--text-1)" }}
+                                      className="text-sm truncate text-text-primary"
                                     >
                                       {model.label}
                                     </p>

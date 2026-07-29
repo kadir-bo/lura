@@ -12,7 +12,7 @@ export default function ChatFooterMessage() {
 
   return (
     <AnimatePresence key={isLoading}>
-      <div className="text-xs hidden md:flex justify-center my-2 text-center" style={{ color: "var(--text-3)" }}>
+      <div className="text-xs hidden md:flex justify-center my-2 text-center text-text-muted">
         {isLoading ? (
           <motion.p
             variants={ParagraphVariants}

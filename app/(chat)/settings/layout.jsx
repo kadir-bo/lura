@@ -28,7 +28,7 @@ export default function SettingsLayout({ children }) {
                   <li key={tab.href}>
                     <PrimaryButton
                       href={tab.href}
-                      className="border-transparent hover:border-transparent hover:bg-[var(--interactive-hover)] py-2"
+                      className="border-transparent hover:border-transparent hover:bg-interactive-hover py-2"
                       active={isActive}
                     >
                       {tab.name}

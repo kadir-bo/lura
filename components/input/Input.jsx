@@ -39,12 +39,12 @@ export default function Input({
           "mb-1.5 text-sm ml-px flex gap-1 items-center justify-start pl-px",
           labelClassName,
           lockedClasses,
+          "text-text-secondary",
         )}
-        style={{ color: "var(--text-2)" }}
       >
         {label}
         {locked && (
-          <Icon name={Lock} size="xs" style={{ color: "var(--text-3)" }} />
+          <Icon name={Lock} size="xs" className="text-text-muted" />
         )}
       </label>
       <input
@@ -62,18 +62,14 @@ export default function Input({
         onFocus={onFocus}
         required={required}
         className={twMerge(
-          "border w-full px-3 py-2.5 rounded-lg bg-transparent outline-none",
+          "border border-border-med w-full px-3 py-2.5 rounded-lg bg-transparent text-text-primary outline-none",
           "transition-colors duration-100",
-          "focus:border-(--border-hi)",
+          "focus:border-border-hi",
           "disabled:cursor-not-allowed disabled:opacity-40",
-          "placeholder:text-(--text-3)",
+          "placeholder:text-text-muted",
           inputClassName,
           lockedClasses,
         )}
-        style={{
-          borderColor: "var(--border-med)",
-          color: "var(--text-1)",
-        }}
         {...props}
       />
     </div>

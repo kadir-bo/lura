@@ -24,7 +24,7 @@ export default function AuthFormShell({
           initial="initial"
           animate="animate"
           exit="exit"
-          className="p-8 md:border border-[var(--border)] rounded-2xl bg-[var(--surface)]"
+          className="p-8 md:border border-border rounded-2xl bg-surface"
         >
           {title && (
             <h2
@@ -44,7 +44,7 @@ export default function AuthFormShell({
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="mt-4 text-[var(--danger)] text-sm"
+                className="mt-4 text-danger text-sm"
               >
                 {error}
               </motion.p>
@@ -52,7 +52,7 @@ export default function AuthFormShell({
           </AnimatePresence>
 
           {footer && (
-            <div className="mt-6 text-center text-sm text-[var(--text-2)]">
+            <div className="mt-6 text-center text-sm text-text-secondary">
               {footer}
             </div>
           )}

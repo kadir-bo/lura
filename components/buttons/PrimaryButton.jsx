@@ -23,18 +23,18 @@ export default function PrimaryButton({
     rounded-lg cursor-pointer outline-none
     transition-colors duration-100
     relative group/btn
-    text-[var(--text-2)]
+    text-text-secondary
     hover:text-foreground
-    hover:bg-[var(--interactive-hover)]
+    hover:bg-interactive-hover
     border border-transparent
   `;
 
   const filledCls = filled
-    ? "bg-[var(--interactive)] text-[var(--bg)] hover:bg-white/90 hover:text-[var(--bg)] border-transparent"
+    ? "bg-interactive text-background hover:bg-white/90 hover:text-background border-transparent"
     : "";
 
   const activeCls = active
-    ? "bg-[var(--interactive-hover)] text-foreground border-[var(--border-med)]"
+    ? "bg-interactive-hover text-foreground border-border-med"
     : "";
 
   const hasActiveCls = active && activeClassName ? activeClassName : "";
@@ -50,8 +50,8 @@ export default function PrimaryButton({
   const tooltipEl = tooltip && (
     <span
       className={twMerge(
-        "absolute whitespace-nowrap bg-[var(--overlay)] text-foreground text-xs px-2 py-1 rounded-md",
-        "border border-[var(--border)] shadow-[var(--shadow-sm)]",
+        "absolute whitespace-nowrap bg-overlay text-foreground text-xs px-2 py-1 rounded-md",
+        "border border-border shadow-sm",
         "opacity-0 group-hover/btn:opacity-100 pointer-events-none",
         "transition-opacity duration-150 group-hover/btn:delay-500 delay-0 z-50",
         positions[tooltipPosition],

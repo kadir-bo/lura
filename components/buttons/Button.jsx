@@ -26,12 +26,12 @@ export default function Button({
     "relative group/btn w-full px-4 py-2.5 rounded-lg font-medium text-sm outline-none cursor-pointer",
     "border transition-colors duration-100",
     "flex items-center justify-center gap-2",
-    "border-[var(--border-med)] text-[var(--text-2)]",
-    "hover:border-[var(--border-hi)] hover:text-foreground hover:bg-[var(--interactive-hover)]",
+    "border-border-med text-text-secondary",
+    "hover:border-border-hi hover:text-foreground hover:bg-interactive-hover",
     filled &&
-      "bg-[var(--interactive)] border-transparent text-[var(--bg)] hover:bg-white/90 hover:text-[var(--bg)] hover:border-transparent",
+      "bg-interactive border-transparent text-background hover:bg-white/90 hover:text-background hover:border-transparent",
     active &&
-      "bg-[var(--interactive-hover)] border-[var(--border-med)] text-foreground",
+      "bg-interactive-hover border-border-med text-foreground",
     active && activeClassName,
     disabled && "opacity-30 cursor-not-allowed pointer-events-none",
     className,
@@ -41,7 +41,7 @@ export default function Button({
     <span
       className={twMerge(
         "absolute whitespace-nowrap text-xs px-2 py-1 rounded-md z-50",
-        "border shadow-[var(--shadow-sm)]",
+        "border shadow-sm",
         "opacity-0 pointer-events-none",
         "transition-opacity duration-150 group-hover/btn:opacity-100 group-hover/btn:delay-500",
         TOOLTIP_POSITIONS[tooltipPosition] ?? TOOLTIP_POSITIONS.top,

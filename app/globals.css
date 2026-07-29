@@ -64,6 +64,25 @@
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--text-1);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-overlay: var(--overlay);
+  --color-border-dim: var(--border-dim);
+  --color-border: var(--border);
+  --color-border-med: var(--border-med);
+  --color-border-hi: var(--border-hi);
+  --color-text-primary: var(--text-1);
+  --color-text-secondary: var(--text-2);
+  --color-text-muted: var(--text-3);
+  --color-interactive: var(--interactive);
+  --color-interactive-muted: var(--interactive-muted);
+  --color-interactive-hover: var(--interactive-hover);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
   --font-sans: var(--font-ui);
   --font-mono: var(--font-code);
 }

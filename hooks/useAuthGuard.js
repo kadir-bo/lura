@@ -8,7 +8,7 @@ export function useAuthGuard(redirectTo = "/chat") {
 
   useEffect(() => {
     if (user) router.push(redirectTo);
-  }, [user]);
+  }, [user, router, redirectTo]);
 
   return { user, loading };
 }

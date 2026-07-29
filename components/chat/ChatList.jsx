@@ -147,8 +147,7 @@ export default function ChatList({
     <div className="py-2 w-full">
       {label && (
         <button
-          className="group w-full pl-2.5 text-[11px] font-medium uppercase tracking-widest flex items-center gap-1 cursor-pointer transition-colors duration-100"
-          style={{ color: "var(--text-3)" }}
+          className="group w-full pl-2.5 text-[11px] font-medium uppercase tracking-widest flex items-center gap-1 cursor-pointer transition-colors duration-100 text-text-muted"
           onClick={handleToggleChats}
           aria-expanded={isOpen}
           aria-label={`${isOpen ? "Collapse" : "Expand"} ${label}`}
@@ -176,8 +175,7 @@ export default function ChatList({
 
             {!hasItems && (
               <li
-                className="text-xs text-center py-4"
-                style={{ color: "var(--text-3)" }}
+                className="text-xs text-center py-4 text-text-muted"
               >
                 No chats
               </li>
@@ -255,9 +253,9 @@ const ChatListItem = React.memo(
         className={twMerge(
           "group w-full text-left rounded-lg flex justify-between items-center gap-1 transition-colors duration-75",
           isHighlighted
-            ? "bg-[var(--elevated)]"
-            : "hover:bg-[var(--interactive-hover)]",
-          isEditing ? "ring-1 ring-[var(--border-med)]" : "",
+            ? "bg-elevated"
+            : "hover:bg-interactive-hover",
+          isEditing ? "ring-1 ring-border-med" : "",
           listItemClasses,
         )}
       >
@@ -269,8 +267,7 @@ const ChatListItem = React.memo(
             onKeyDown={handleKeyDown}
             onBlur={handleSave}
             autoFocus
-            className="w-full bg-transparent py-1.5 px-3 outline-none text-sm"
-            style={{ color: "var(--text-1)" }}
+            className="w-full bg-transparent py-1.5 px-3 outline-none text-sm text-text-primary"
           />
         ) : (
           <>
@@ -289,7 +286,7 @@ const ChatListItem = React.memo(
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.12 }}
                   >
-                    <ProcessingIndicator message="Generating title…" />
+                    <ProcessingIndicator message="Generating titleÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" />
                   </motion.span>
                 ) : (
                   <motion.span

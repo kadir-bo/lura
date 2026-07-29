@@ -96,8 +96,7 @@ export default function Message({
       />
 
       <p
-        className="text-sm font-medium flex-1 leading-snug"
-        style={{ color: "var(--text-1)" }}
+        className="text-sm font-medium flex-1 leading-snug text-text-primary"
       >
         {message}
       </p>
@@ -105,8 +104,7 @@ export default function Message({
       {onClose && (
         <button
           onClick={onClose}
-          className="shrink-0 p-0.5 rounded-md transition-colors duration-100 hover:bg-white/10 outline-none"
-          style={{ color: "var(--text-3)" }}
+          className="shrink-0 p-0.5 rounded-md transition-colors duration-100 hover:bg-white/10 outline-none text-text-muted"
           aria-label="Dismiss"
         >
           <X size={13} />

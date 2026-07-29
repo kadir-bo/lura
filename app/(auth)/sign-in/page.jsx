@@ -51,8 +51,7 @@ export default function SignInPage() {
             Don&apos;t have an account?{" "}
             <Link
               href="/sign-up"
-              className="underline underline-offset-4 hover:text-foreground transition-colors"
-              style={{ color: "var(--text-1)" }}
+              className="underline underline-offset-4 hover:text-foreground transition-colors text-text-primary"
             >
               Sign up
             </Link>

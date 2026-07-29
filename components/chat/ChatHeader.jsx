@@ -37,8 +37,7 @@ const IconBtn = ({
   <button
     onClick={onClick}
     aria-label={ariaLabel}
-    className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-100 hover:bg-(--interactive-hover) outline-none ${className}`}
-    style={{ color: "var(--text-2)" }}
+    className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-100 hover:bg-interactive-hover outline-none text-text-secondary ${className}`}
   >
     {children}
   </button>
@@ -59,35 +58,57 @@ export default function ChatHeader({ handleToggleSidebar }) {
   } = useDatabase();
   const { openModal, openMessage } = useModal();
 
-  const [project, setProject] = useState(null);
-  const [chat, setChat] = useState(null);
+  const [projectRecord, setProjectRecord] = useState(null);
+  const [chatRecord, setChatRecord] = useState(null);
 
   const isProjectPage = pathname.startsWith("/project/");
   const isChatPage = pathname.startsWith("/chat/") && pathname !== "/chat";
   const projectId = isProjectPage ? params?.id : null;
   const chatId = isChatPage ? params?.chatId : null;
+  const project = projectRecord?.id === projectId ? projectRecord.value : null;
+  const chat = chatRecord?.id === chatId ? chatRecord.value : null;
+
+  const updateProject = (updater) => {
+    setProjectRecord((previous) => ({
+      id: projectId,
+      value:
+        typeof updater === "function"
+          ? updater(previous?.value ?? null)
+          : updater,
+    }));
+  };
+
+  const updateChat = (updater) => {
+    setChatRecord((previous) => ({
+      id: chatId,
+      value:
+        typeof updater === "function"
+          ? updater(previous?.value ?? null)
+          : updater,
+    }));
+  };
 
   useEffect(() => {
-    if (!projectId) {
-      setProject(null);
-      return;
-    }
-    getProject(projectId).then((p) => setProject(p ?? null));
+    if (!projectId) return;
+    getProject(projectId).then((p) =>
+      setProjectRecord({ id: projectId, value: p ?? null }),
+    );
   }, [projectId, getProject]);
 
   useEffect(() => {
-    if (!chatId) {
-      setChat(null);
-      return;
-    }
+    if (!chatId) return;
     // One-time fetch for immediate render
-    getConversation(chatId).then((c) => setChat(c ?? null));
+    getConversation(chatId).then((c) =>
+      setChatRecord({ id: chatId, value: c ?? null }),
+    );
     // Subscription keeps title in sync (e.g., after AI generates it)
-    const unsub = subscribeToConversation(chatId, (updated) => setChat(updated));
+    const unsub = subscribeToConversation(chatId, (updated) =>
+      setChatRecord({ id: chatId, value: updated }),
+    );
     return () => unsub?.();
-  }, [chatId]); // stable refs — no need to include in deps
+  }, [chatId, getConversation, subscribeToConversation]); // stable refs ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no need to include in deps
 
-  // ── Project actions ──────────────────────────────────────────────────────
+  // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Project actions ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
   const handleArchiveProject = async () => {
     const result = await toggleArchiveProject(projectId, !project?.isArchived);
@@ -96,7 +117,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
         project?.isArchived ? "Project unarchived" : "Project archived",
         "success",
       );
-      setProject((prev) => ({ ...prev, isArchived: !prev.isArchived }));
+      updateProject((prev) => ({ ...prev, isArchived: !prev.isArchived }));
       router.push(project.isArchived ? "/projects" : "/archive");
     }
   };
@@ -109,7 +130,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
     }
   };
 
-  // ── Chat actions ─────────────────────────────────────────────────────────
+  // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Chat actions ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
   const handleDeleteChat = async () => {
     router.push("/chat");
@@ -126,12 +147,12 @@ export default function ChatHeader({ handleToggleSidebar }) {
         chat?.isArchived ? "Chat unarchived" : "Chat archived",
         "success",
       );
-      setChat((prev) => ({ ...prev, isArchived: !prev.isArchived }));
+      updateChat((prev) => ({ ...prev, isArchived: !prev.isArchived }));
       router.push("/chat");
     }
   };
 
-  // ── Project dropdown items ───────────────────────────────────────────────
+  // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Project dropdown items ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
   const projectMenuItems = project
     ? [
@@ -146,7 +167,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
                 description={project.description}
                 id={projectId}
                 onSuccess={(updates) =>
-                  setProject((prev) => ({ ...prev, ...updates }))
+                  updateProject((prev) => ({ ...prev, ...updates }))
                 }
               />,
             ),
@@ -180,7 +201,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
       className="w-full h-12 flex items-center justify-between px-2 border-b shrink-0 relative"
       style={{ background: "var(--surface)", borderColor: "var(--border)" }}
     >
-      {/* Left — mobile sidebar toggle */}
+      {/* Left ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â mobile sidebar toggle */}
       <div className="flex items-center md:hidden">
         <IconBtn
           onClick={handleToggleSidebar}
@@ -192,22 +213,20 @@ export default function ChatHeader({ handleToggleSidebar }) {
         <div className="hidden md:block w-8" />
       </div>
 
-      {/* Left — chat title with dropdown (chat ID page only) */}
+      {/* Left ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â chat title with dropdown (chat ID page only) */}
       {isChatPage && chat && (
         <div className="relative">
           <Dropdown>
-            <DropdownTrigger className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-(--overlay) transition-colors duration-100 max-w-50 sm:max-w-xs">
+            <DropdownTrigger className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-overlay transition-colors duration-100 max-w-50 sm:max-w-xs">
               <span
-                className="text-[13px] font-medium truncate min-w-40"
-                style={{ color: "var(--text-1)" }}
+                className="text-[13px] font-medium truncate min-w-40 text-text-primary"
               >
                 {chat.title}
               </span>
               <Icon
                 name={ChevronDown}
                 size="xs"
-                className="shrink-0"
-                style={{ color: "var(--text-3)" }}
+                className="shrink-0 text-text-muted"
               />
             </DropdownTrigger>
 
@@ -225,7 +244,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
                       title={chat.title}
                       id={chatId}
                       onSuccess={(updates) =>
-                        setChat((prev) => ({ ...prev, ...updates }))
+                        updateChat((prev) => ({ ...prev, ...updates }))
                       }
                     />,
                   )
@@ -243,7 +262,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
                 <span>Add to Project</span>
               </DropdownItem>
 
-              {/* Delete — separated + red */}
+              {/* Delete ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â separated + red */}
               <DropdownSeparator />
               <DropdownItem
                 onClick={() =>
@@ -265,12 +284,12 @@ export default function ChatHeader({ handleToggleSidebar }) {
         </div>
       )}
 
-      {/* Right — context actions */}
+      {/* Right ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â context actions */}
       <div className="flex items-center ml-auto">
         {isProjectPage && project ? (
           <DropdownMenu
             dropdownList={projectMenuItems}
-            triggerClassName="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-[var(--interactive-hover)] border-none"
+            triggerClassName="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-interactive-hover border-none"
             contentSideOffset={4}
             onClick={(e, menuItem) => {
               e.stopPropagation();

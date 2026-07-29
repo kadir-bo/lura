@@ -80,11 +80,11 @@ export default function ProjectCard({
 
   const defaultClasses = `group relative flex flex-col gap-3 w-full border p-4 rounded-xl cursor-pointer select-none transition-colors duration-150`;
   const selectedClasses = isSelected
-    ? "border-[var(--border-hi)] bg-[var(--elevated)]"
-    : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-med)] hover:bg-[var(--elevated)]";
+    ? "border-border-hi bg-elevated"
+    : "border-border bg-surface hover:border-border-med hover:bg-elevated";
   const isActive =
     isDropdownOpen && !isSelected
-      ? "border-[var(--border-med)] bg-[var(--elevated)]"
+      ? "border-border-med bg-elevated"
       : "";
 
   if (!project) return null;
@@ -101,16 +101,15 @@ export default function ProjectCard({
       onTouchMove={onLongPressCancel}
       onContextMenu={(e) => e.preventDefault()}
     >
-      <h4 className="font-medium text-sm" style={{ color: "var(--text-1)" }}>
+      <h4 className="font-medium text-sm text-text-primary">
         {title}
       </h4>
-      <p className="text-sm line-clamp-3" style={{ color: "var(--text-2)" }}>
+      <p className="text-sm line-clamp-3 text-text-secondary">
         {description}
       </p>
 
       <div
-        className="flex justify-between items-center text-xs"
-        style={{ color: "var(--text-3)" }}
+        className="flex justify-between items-center text-xs text-text-muted"
       >
         <span>
           {sort === "date"

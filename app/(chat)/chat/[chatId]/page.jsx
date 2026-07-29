@@ -52,8 +52,7 @@ export default function ChatIDPage() {
       />
       <div
         ref={interfaceRef}
-        className="absolute bottom-10 left-0 right-0 z-998 flex justify-center items-start px-2 pb-8 md:pb-0"
-          style={{ background: "var(--bg)" }}
+        className="absolute bottom-10 left-0 right-0 z-998 flex justify-center items-start px-2 pb-8 md:pb-0 bg-background"
       >
         <ChatInterface project_id={project?.id ?? null} project={project} />
       </div>

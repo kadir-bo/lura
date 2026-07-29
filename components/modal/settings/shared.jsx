@@ -4,7 +4,7 @@ import React from "react";
 import { Zap } from "react-feather";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Animated save button — only visible when there are unsaved changes.
+// Animated save button ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â only visible when there are unsaved changes.
 export function SaveBtn({ hasChanges, loading, saved, onClick }) {
   return (
     <AnimatePresence>
@@ -19,7 +19,7 @@ export function SaveBtn({ hasChanges, loading, saved, onClick }) {
           className="text-xs font-medium px-3 py-1.5 rounded-lg transition-colors duration-100 disabled:opacity-50"
           style={{ background: "var(--interactive)", color: "var(--bg)" }}
         >
-          {loading ? "Saving…" : saved ? "Saved!" : "Save"}
+          {loading ? "SavingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : saved ? "Saved!" : "Save"}
         </motion.button>
       )}
     </AnimatePresence>
@@ -31,10 +31,9 @@ export function Section({ title, children, action }) {
   return (
     <div className="flex flex-col gap-3">
       <div
-        className="flex items-center justify-between pb-2 border-b"
-        style={{ borderColor: "var(--border)" }}
+        className="flex items-center justify-between pb-2 border-b border-border"
       >
-        <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>
+        <h3 className="text-sm font-semibold text-text-primary">
           {title}
         </h3>
         {action}
@@ -65,10 +64,9 @@ export function FastBadge() {
 export function FieldRow({ label, children }) {
   return (
     <div
-      className="flex items-center justify-between gap-4 py-2.5 border-b last:border-none"
-      style={{ borderColor: "var(--border)" }}
+      className="flex items-center justify-between gap-4 py-2.5 border-b last:border-none border-border"
     >
-      <span className="text-sm shrink-0" style={{ color: "var(--text-2)" }}>
+      <span className="text-sm shrink-0 text-text-secondary">
         {label}
       </span>
       {children}

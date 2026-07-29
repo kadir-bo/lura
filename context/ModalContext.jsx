@@ -88,7 +88,7 @@ export default function ModalProvider({ children }) {
           }}
         >
           <div
-            className={`relative rounded-2xl shadow-[var(--shadow-lg)] w-full mx-4 border overflow-hidden ${
+            className={`relative rounded-2xl shadow-lg w-full mx-4 border overflow-hidden ${
               modal.wide
                 ? "max-w-3xl max-h-[90vh]"
                 : "p-6 max-w-md max-h-[90vh] overflow-auto"

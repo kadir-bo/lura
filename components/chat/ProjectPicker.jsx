@@ -23,15 +23,13 @@ function Panel({ projects, selectedProjectId, onSelect }) {
   return (
     <div className="flex flex-col" style={{ width: 240, maxHeight: 320 }}>
       <div
-        className="flex items-center gap-1.5 p-1.5 border-b"
-        style={{ borderColor: "var(--border)" }}
+        className="flex items-center gap-1.5 p-1.5 border-b border-border"
       >
         <div className="relative flex-1">
           <Icon
             name={Search}
             size="xs"
-            className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ color: "var(--text-3)" }}
+            className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted"
           />
           <input
             autoFocus
@@ -50,7 +48,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
             onSelect(null);
             setIsOpen(false);
           }}
-          className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-(--overlay) outline-none"
+          className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-overlay outline-none"
           style={{
             background:
               selectedProjectId == null
@@ -58,7 +56,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
                 : "transparent",
           }}
         >
-          <span className="text-sm truncate" style={{ color: "var(--text-1)" }}>
+          <span className="text-sm truncate text-text-primary">
             No Project
           </span>
           <span className="flex-1" />
@@ -66,16 +64,14 @@ function Panel({ projects, selectedProjectId, onSelect }) {
             <Icon
               name={Check}
               size="xs"
-              className="shrink-0"
-              style={{ color: "var(--text-1)" }}
+              className="shrink-0 text-text-primary"
             />
           )}
         </button>
 
         {filtered.length === 0 ? (
           <p
-            className="text-xs text-center py-6"
-            style={{ color: "var(--text-3)" }}
+            className="text-xs text-center py-6 text-text-muted"
           >
             No projects found
           </p>
@@ -89,7 +85,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
                   onSelect(p);
                   setIsOpen(false);
                 }}
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-(--overlay) outline-none"
+                className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left transition-colors duration-100 hover:bg-overlay outline-none"
                 style={{
                   background: active
                     ? "var(--interactive-hover)"
@@ -97,8 +93,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
                 }}
               >
                 <span
-                  className="text-sm truncate"
-                  style={{ color: "var(--text-1)" }}
+                  className="text-sm truncate text-text-primary"
                 >
                   {p.title}
                 </span>
@@ -107,8 +102,7 @@ function Panel({ projects, selectedProjectId, onSelect }) {
                   <Icon
                     name={Check}
                     size="xs"
-                    className="shrink-0"
-                    style={{ color: "var(--text-1)" }}
+                    className="shrink-0 text-text-primary"
                   />
                 )}
               </button>
@@ -128,9 +122,9 @@ export default function ProjectPicker({
 }) {
   return (
     <Dropdown>
-      <DropdownTrigger className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 hover:bg-[var(--overlay)] transition-colors duration-100">
+      <DropdownTrigger className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 hover:bg-overlay transition-colors duration-100">
         <Icon name={Folder} size="xs" style={{ color: "var(--text-3)" }} />
-        <span className="text-xs font-medium" style={{ color: "var(--text-2)" }}>
+        <span className="text-xs font-medium text-text-secondary">
           {currentLabel}
         </span>
         <Icon name={ChevronDown} size="xs" style={{ color: "var(--text-3)" }} />

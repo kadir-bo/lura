@@ -50,11 +50,10 @@ export default function Textarea({
     <div className={twMerge("w-full min-w-40 relative", containerClassName, lockedCls)}>
       <label
         htmlFor={id}
-        className={twMerge("mb-1.5 text-sm ml-px flex gap-1 items-center pl-px", labelClassName, lockedCls)}
-        style={{ color: "var(--text-2)" }}
+        className={twMerge("mb-1.5 text-sm ml-px flex gap-1 items-center pl-px text-text-secondary", labelClassName, lockedCls)}
       >
         {label}
-        {locked && <Icon name={Lock} size="xs" style={{ color: "var(--text-3)" }} />}
+        {locked && <Icon name={Lock} size="xs" className="text-text-muted" />}
       </label>
 
       <textarea
@@ -71,19 +70,14 @@ export default function Textarea({
         rows={rows}
         maxLength={maxLength}
         className={twMerge(
-          "border w-full px-3 py-2.5 rounded-lg outline-none resize-none",
+          "border border-border-med w-full px-3 py-2.5 rounded-lg bg-transparent text-text-primary outline-none resize-none",
           "transition-colors duration-100",
-          "focus:border-[var(--border-hi)]",
+          "focus:border-border-hi",
           "disabled:opacity-40 disabled:cursor-not-allowed",
-          "placeholder:text-[var(--text-3)]",
+          "placeholder:text-text-muted",
           inputClassName,
           lockedCls,
         )}
-        style={{
-          borderColor: "var(--border-med)",
-          background: "transparent",
-          color: "var(--text-1)",
-        }}
       />
 
       <AnimatePresence mode="wait">
@@ -95,8 +89,7 @@ export default function Textarea({
             exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.35 }}
             onAnimationComplete={handleAnimationComplete}
-            className="absolute z-50 top-12 md:top-7 left-0 pt-2 pl-3 pointer-events-none select-none text-sm"
-            style={{ color: "var(--text-2)" }}
+            className="absolute z-50 top-12 md:top-7 left-0 pt-2 pl-3 pointer-events-none select-none text-sm text-text-secondary"
           >
             {placeholderArray[currentPlaceholderIndex]}
           </motion.span>

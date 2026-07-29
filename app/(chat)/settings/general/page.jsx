@@ -162,7 +162,7 @@ function GeneralSettingsPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      {/* ── Profile ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Profile Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className="flex flex-col gap-5">
         <h4 className="font-medium">Profile</h4>
         <div className="flex flex-col gap-6 p-4 rounded-xl border" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
@@ -200,7 +200,7 @@ function GeneralSettingsPage() {
         />
       </div>
 
-      {/* ── Preferences ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Preferences Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className="flex flex-col gap-5">
         <h4 className="font-medium">Preferences</h4>
         <div className="flex flex-col gap-4 p-4 rounded-xl border" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
@@ -224,7 +224,7 @@ function GeneralSettingsPage() {
 
       <hr style={{ borderColor: "var(--border)" }} />
 
-      {/* ── Default Model ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Default Model Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <div className="flex flex-col gap-5">
         <h4 className="font-medium">Default Model</h4>
         <div className="flex flex-col gap-6 p-4 rounded-xl border" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>

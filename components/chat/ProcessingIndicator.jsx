@@ -9,8 +9,7 @@ export default function ProcessingIndicator({ message }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="text-xs tracking-wide px-1"
-          style={{ color: "var(--text-3)" }}
+          className="text-xs tracking-wide px-1 text-text-muted"
         >
           {message}
         </motion.span>

@@ -72,14 +72,13 @@ export default function ProviderSection() {
     <div className="flex flex-col gap-8">
       {/* Active Providers */}
       <Section title="Aktive Provider">
-        {/* NVIDIA NIM — built-in, not removable */}
+        {/* NVIDIA NIM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â built-in, not removable */}
         <div
-          className="flex items-center justify-between py-2.5 border-b"
-          style={{ borderColor: "var(--border)" }}
+          className="flex items-center justify-between py-2.5 border-b border-border"
         >
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 mb-0.5">
-              <p className="text-sm font-medium" style={{ color: "var(--text-1)" }}>
+              <p className="text-sm font-medium text-text-primary">
                 {NVIDIA_NIM_PROVIDER.name}
               </p>
               <span
@@ -93,7 +92,7 @@ export default function ProviderSection() {
                 DEFAULT
               </span>
             </div>
-            <p className="text-xs" style={{ color: "var(--text-3)" }}>
+            <p className="text-xs text-text-muted">
               {NVIDIA_NIM_PROVIDER.apiUrl}
             </p>
           </div>
@@ -108,23 +107,21 @@ export default function ProviderSection() {
         {customProviders.map((p) => (
           <div
             key={p.id}
-            className="flex items-center justify-between py-2.5 border-b"
-            style={{ borderColor: "var(--border)" }}
+            className="flex items-center justify-between py-2.5 border-b border-border"
           >
             <div className="min-w-0 flex-1">
               <p
-                className="text-sm font-medium truncate"
-                style={{ color: "var(--text-1)" }}
+                className="text-sm font-medium truncate text-text-primary"
               >
                 {p.name}
               </p>
-              <p className="text-xs truncate" style={{ color: "var(--text-3)" }}>
+              <p className="text-xs truncate text-text-muted">
                 {p.apiUrl}
               </p>
             </div>
             <button
               onClick={() => confirmRemove(p)}
-              className="ml-3 p-1.5 rounded-md transition-colors duration-100 hover:bg-(--overlay) shrink-0"
+              className="ml-3 p-1.5 rounded-md transition-colors duration-100 hover:bg-overlay shrink-0"
             >
               <Icon name={Trash2} size="xs" style={{ color: "var(--text-3)" }} />
             </button>
@@ -132,7 +129,7 @@ export default function ProviderSection() {
         ))}
 
         {customProviders.length === 0 && (
-          <p className="text-xs py-2" style={{ color: "var(--text-3)" }}>
+          <p className="text-xs py-2 text-text-muted">
             Keine weiteren Provider konfiguriert.
           </p>
         )}
@@ -140,7 +137,7 @@ export default function ProviderSection() {
 
       {/* Add Provider */}
       <Section
-        title="Provider hinzufügen"
+        title="Provider hinzufÃƒÆ’Ã‚Â¼gen"
         action={
           <SaveBtn
             hasChanges={hasChanges}
@@ -169,11 +166,11 @@ export default function ProviderSection() {
           <button
             onClick={addProvider}
             disabled={!form.name.trim() || !form.apiUrl.trim()}
-            className="flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium transition-colors duration-100 disabled:opacity-40 hover:bg-(--overlay) border outline-none mt-1"
+            className="flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium transition-colors duration-100 disabled:opacity-40 hover:bg-overlay border outline-none mt-1"
             style={{ borderColor: "var(--border)", color: "var(--text-2)" }}
           >
             <Icon name={Plus} size="xs" />
-            Provider hinzufügen
+            Provider hinzufÃƒÆ’Ã‚Â¼gen
           </button>
         </div>
       </Section>

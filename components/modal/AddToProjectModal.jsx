@@ -37,7 +37,7 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
         onSuccess?.(selectedProjectId);
         closeModal();
       } else {
-        openMessage("Failed to add chat to project — check console for details", "error");
+        openMessage("Failed to add chat to project ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â check console for details", "error");
       }
     } catch (err) {
       console.error("addConversationToProject threw:", err);
@@ -52,16 +52,16 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-1" style={{ color: "var(--text-1)" }}>
+      <h2 className="text-xl font-semibold mb-1 text-text-primary">
         Add to Project
       </h2>
-      <p className="text-sm mb-5" style={{ color: "var(--text-3)" }}>
+      <p className="text-sm mb-5 text-text-muted">
         Select a project to move this chat into.
       </p>
 
       {fetching ? (
-        <p className="text-sm py-4 text-center" style={{ color: "var(--text-3)" }}>
-          Loading projects…
+        <p className="text-sm py-4 text-center text-text-muted">
+          Loading projectsÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦
         </p>
       ) : fetchFailed ? (
         <p className="text-sm py-4 text-center" style={{ color: "#ef4444" }}>
@@ -69,13 +69,12 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
         </p>
       ) : projects.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-4 text-center">
-          <p className="text-sm" style={{ color: "var(--text-3)" }}>
+          <p className="text-sm text-text-muted">
             No projects yet.
           </p>
           <button
             onClick={handleCreateProject}
-            className="text-sm font-medium underline underline-offset-2 transition-opacity hover:opacity-70"
-            style={{ color: "var(--interactive)" }}
+            className="text-sm font-medium underline underline-offset-2 transition-opacity hover:opacity-70 text-interactive"
           >
             Create a project
           </button>
@@ -117,7 +116,7 @@ export default function AddToProjectModal({ chatId, onSuccess }) {
             disabled={!selectedProjectId || loading || fetching}
             filled
           >
-            {loading ? "Adding…" : "Add to Project"}
+            {loading ? "AddingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Add to Project"}
           </PrimaryButton>
         )}
       </div>

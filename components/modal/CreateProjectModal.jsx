@@ -44,13 +44,12 @@ export default function CreateProjectModal() {
     <div className="flex flex-col gap-5 p-6 w-full max-w-md mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold" style={{ color: "var(--text-1)" }}>
+        <h2 className="text-base font-semibold text-text-primary">
           Create a project
         </h2>
         <button
           onClick={closeModal}
-          className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors hover:bg-(--overlay) outline-none"
-          style={{ color: "var(--text-3)" }}
+          className="flex items-center justify-center w-7 h-7 rounded-lg transition-colors hover:bg-overlay outline-none text-text-muted"
         >
           <Icon name={X} size="sm" />
         </button>
@@ -61,15 +60,15 @@ export default function CreateProjectModal() {
         className="rounded-xl p-4 flex flex-col gap-2"
         style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
       >
-        <p className="text-xs font-semibold" style={{ color: "var(--text-2)" }}>
+        <p className="text-xs font-semibold text-text-secondary">
           How to use projects
         </p>
-        <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>
+        <p className="text-xs leading-relaxed text-text-muted">
           Projects help organize your work and leverage knowledge across multiple
           conversations. Upload docs, code, and files to create themed collections
           that Lura can reference again and again.
         </p>
-        <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>
+        <p className="text-xs leading-relaxed text-text-muted">
           Start by creating a memorable title and description to organize your
           project. You can always edit it later.
         </p>
@@ -78,7 +77,7 @@ export default function CreateProjectModal() {
       {/* Form */}
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm" style={{ color: "var(--text-2)" }}>
+          <label className="text-sm text-text-secondary">
             What are you working on?
           </label>
           <input
@@ -97,7 +96,7 @@ export default function CreateProjectModal() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm" style={{ color: "var(--text-2)" }}>
+          <label className="text-sm text-text-secondary">
             What are you trying to achieve?
           </label>
           <textarea
@@ -119,8 +118,7 @@ export default function CreateProjectModal() {
       <div className="flex justify-end gap-2">
         <button
           onClick={closeModal}
-          className="px-4 py-2 rounded-lg text-sm transition-colors hover:bg-(--overlay) outline-none"
-          style={{ color: "var(--text-2)" }}
+          className="px-4 py-2 rounded-lg text-sm transition-colors hover:bg-overlay outline-none text-text-secondary"
         >
           Cancel
         </button>
@@ -133,7 +131,7 @@ export default function CreateProjectModal() {
             color: "var(--bg)",
           }}
         >
-          {loading ? "Creating…" : "Create project"}
+          {loading ? "CreatingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Create project"}
         </button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Info } from "react-feather";
 import { useDatabase } from "@/context";
 import { generateId } from "@/lib";
@@ -10,12 +10,9 @@ import { Section } from "./shared";
 
 export default function PrivacySection() {
   const { userProfile, updateUserProfile } = useDatabase();
-  const [memories, setMemories] = useState(userProfile?.memories || []);
+  const [memoriesOverride, setMemories] = useState(null);
   const [newMemory, setNewMemory] = useState("");
-
-  useEffect(() => {
-    setMemories(userProfile?.memories || []);
-  }, [userProfile?.memories]);
+  const memories = memoriesOverride ?? userProfile?.memories ?? [];
 
   const handleAdd = async () => {
     if (!newMemory.trim()) return;
@@ -53,10 +50,9 @@ export default function PrivacySection() {
           <Icon
             name={Info}
             size="sm"
-            style={{ color: "var(--text-3)" }}
-            className="mt-0.5 shrink-0"
+            className="mt-0.5 shrink-0 text-text-muted"
           />
-          <p className="text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>
+          <p className="text-sm leading-relaxed text-text-muted">
             Your conversations may be used to improve Lura. We do not sell your
             personal data to third parties.
           </p>
@@ -74,20 +70,14 @@ export default function PrivacySection() {
                 handleAdd();
               }
             }}
-            placeholder="e.g. I prefer concise answers… (Enter to add)"
+            placeholder="e.g. I prefer concise answersÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ (Enter to add)"
             rows={2}
-            className="w-full text-sm px-3 py-2.5 rounded-lg border outline-none resize-none pr-16"
-            style={{
-              background: "var(--elevated)",
-              borderColor: "var(--border-med)",
-              color: "var(--text-1)",
-            }}
+            className="w-full text-sm px-3 py-2.5 rounded-lg border border-border-med bg-elevated text-text-primary outline-none resize-none pr-16"
           />
           <button
             onClick={handleAdd}
             disabled={!newMemory.trim()}
-            className="absolute right-2 bottom-2 text-xs font-medium px-2.5 py-1 rounded-md transition-colors duration-100 disabled:opacity-40"
-            style={{ background: "var(--interactive)", color: "var(--bg)" }}
+            className="absolute right-2 bottom-2 text-xs font-medium px-2.5 py-1 rounded-md transition-colors duration-100 disabled:opacity-40 bg-interactive text-background"
           >
             Add
           </button>
@@ -114,8 +104,7 @@ export default function PrivacySection() {
               ))
             ) : (
               <p
-                className="text-xs text-center py-4"
-                style={{ color: "var(--text-3)" }}
+                className="text-xs text-center py-4 text-text-muted"
               >
                 No memories yet.
               </p>

@@ -31,12 +31,12 @@ export default function AccountSection() {
     <div className="flex flex-col gap-8">
       <Section title="Account">
         <FieldRow label="Email">
-          <span className="text-sm" style={{ color: "var(--text-2)" }}>
+          <span className="text-sm text-text-secondary">
             {user?.email}
           </span>
         </FieldRow>
         <FieldRow label="Name">
-          <span className="text-sm" style={{ color: "var(--text-2)" }}>
+          <span className="text-sm text-text-secondary">
             {username}
           </span>
         </FieldRow>
@@ -45,21 +45,21 @@ export default function AccountSection() {
       <Section title="Session">
         <div className="flex items-center justify-between py-2.5">
           <div>
-            <p className="text-sm font-medium" style={{ color: "var(--text-1)" }}>
+            <p className="text-sm font-medium text-text-primary">
               Log out
             </p>
-            <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
+            <p className="text-xs mt-0.5 text-text-muted">
               Sign out of your account on this device
             </p>
           </div>
           <button
             onClick={handleLogout}
             disabled={loggingOut}
-            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors duration-100 hover:bg-(--overlay) disabled:opacity-50"
+            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors duration-100 hover:bg-overlay disabled:opacity-50"
             style={{ borderColor: "var(--border-med)", color: "var(--text-2)" }}
           >
             <Icon name={LogOut} size="xs" />
-            {loggingOut ? "Logging out…" : "Log out"}
+            {loggingOut ? "Logging outÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" : "Log out"}
           </button>
         </div>
       </Section>
@@ -73,10 +73,10 @@ export default function AccountSection() {
           }}
         >
           <div>
-            <p className="text-sm font-medium" style={{ color: "var(--text-1)" }}>
+            <p className="text-sm font-medium text-text-primary">
               Delete Account
             </p>
-            <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
+            <p className="text-xs mt-0.5 text-text-muted">
               Permanently delete your account and all data
             </p>
           </div>
