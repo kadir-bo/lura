@@ -33,9 +33,8 @@ export default function PublicHeader() {
         <LogoButton />
         <div className="w-max flex items-center justify-end gap-2">
           <PrimaryButton
-            className="justify-center w-max hidden md:flex border-border hover:border-border-med font-medium"
+            className="justify-center w-max hidden md:flex border-border hover:border-border-med text-white"
             href="/sign-in"
-            filled
           >
             Sign In
           </PrimaryButton>
