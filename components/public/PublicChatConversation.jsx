@@ -14,7 +14,7 @@ export default function PublicChatConversation({
   onRegenerate,
   onEdit,
 }) {
-  const { currentStreamResponse, processingMessage } = useChat();
+  const { currentStreamResponse, processingMessage, generationError } = useChat();
 
   const { containerRef, handleScroll, scrollToBottom, scrollToBottomIfLocked } =
     useScrollLock({ threshold: 80 });
@@ -75,6 +75,12 @@ export default function PublicChatConversation({
         {!!processingMessage && (
           <div className="flex justify-start px-1">
             <ProcessingIndicator message={processingMessage} />
+          </div>
+        )}
+
+        {generationError?.conversationId === null && (
+          <div className="flex justify-start px-1">
+            <ProcessingIndicator message={generationError.message} tone="error" />
           </div>
         )}
       </div>

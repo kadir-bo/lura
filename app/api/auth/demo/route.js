@@ -6,16 +6,16 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST() {
-  const auth = getFirebaseAdminAuth();
-
-  if (!auth) {
-    return NextResponse.json(
-      { error: "Demo access is not configured." },
-      { status: 503 },
-    );
-  }
-
   try {
+    const auth = getFirebaseAdminAuth();
+
+    if (!auth) {
+      return NextResponse.json(
+        { error: "Demo access is not configured." },
+        { status: 503 },
+      );
+    }
+
     // A new UID prevents prospective customers from seeing or changing each
     // other's chats, projects, and preferences.
     const uid = `demo-${randomUUID()}`;

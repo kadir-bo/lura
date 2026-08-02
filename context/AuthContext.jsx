@@ -94,13 +94,13 @@ export default function AuthProvider({ children }) {
       }
 
       const response = await fetch("/api/auth/demo", { method: "POST" });
-      const payload = await response.json();
+      const payload = await response.json().catch(() => ({}));
 
       if (!response.ok || !payload.token) {
         const configError = new Error(
           payload.error || "Demo access is unavailable.",
         );
-        configError.code = "auth/demo-auth-not-configured";
+        configError.code = "auth/demo-access-unavailable";
         throw configError;
       }
 
