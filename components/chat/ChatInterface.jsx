@@ -406,13 +406,9 @@ export default function ChatInterface({
             selectedModel={selectedModel}
             currentLabel={currentModelLabel}
             onSelect={(id) => {
+              if (id === selectedModel) return;
+              if (globalLoading) stopGeneration();
               setSelectedModel(id);
-              updateUserProfile({
-                preferences: {
-                  ...userProfile?.preferences,
-                  defaultModel: id,
-                },
-              });
             }}
             onManage={() =>
               openModal(<SettingsModal initialTab="models" />, { wide: true })
