@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   streamResponse,
   buildSystemPromptWithMemories,
@@ -98,7 +105,7 @@ export default function ChatProvider({ children }) {
     setProcessingMessage(text);
   };
 
-  const hideIndicator = () => {
+  const hideIndicator = useCallback(() => {
     const elapsed = Date.now() - (indicatorShownAtRef.current ?? Date.now());
     const remaining = MIN_INDICATOR_MS - elapsed;
 
@@ -108,16 +115,16 @@ export default function ChatProvider({ children }) {
     };
 
     remaining > 0 ? setTimeout(clear, remaining) : clear();
-  };
+  }, []);
 
   // ── Stream helpers ───────────────────────────────────────────────────────
 
-  const resetStreamState = () => {
+  const resetStreamState = useCallback(() => {
     setCurrentStreamResponse("");
     setIsLoading(false);
     setGeneratingId(null);
     abortControllerRef.current = null;
-  };
+  }, []);
 
   const startStream = (conversationId = null) => {
     const controller = new AbortController();
@@ -554,11 +561,22 @@ export default function ChatProvider({ children }) {
   // stopGeneration
   // ─────────────────────────────────────────────────────────────────────────
 
-  const stopGeneration = () => {
+  const stopGeneration = useCallback(() => {
     abortControllerRef.current?.abort();
     resetStreamState();
     hideIndicator();
-  };
+  }, [hideIndicator, resetStreamState]);
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key !== "Escape" || !isLoading) return;
+      event.preventDefault();
+      stopGeneration();
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isLoading, stopGeneration]);
 
   // ─────────────────────────────────────────────────────────────────────────
   // Context value

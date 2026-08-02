@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { FAST_MODEL_IDS } from "@/lib/fast-models";
+import { AVAILABLE_CHAT_MODEL_IDS } from "@/lib/utils/models";
 
 export const runtime = "edge";
 
@@ -27,7 +28,9 @@ export async function GET() {
   const data = await res.json();
 
   const models = (data.data ?? [])
-    .filter((m) => m.object === "model")
+    .filter(
+      (m) => m.object === "model" && AVAILABLE_CHAT_MODEL_IDS.has(m.id),
+    )
     .map((m) => ({
       id: m.id,
       value: m.id,
