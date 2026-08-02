@@ -32,6 +32,40 @@ const MIN_INDICATOR_MS = 1200;
 const MAX_CONTEXT_MSGS = 10;
 const MAX_TOKENS = 100000;
 
+const getGenerationErrorMessage = (error) => {
+  const message = String(error?.message || "").toLowerCase();
+  const status = error?.status;
+
+  if (!navigator.onLine || message.includes("failed to fetch")) {
+    return "You appear to be offline. Check your connection and try again.";
+  }
+
+  if (
+    status === 404 ||
+    (message.includes("model") &&
+      (message.includes("not found") ||
+        message.includes("unavailable") ||
+        message.includes("not supported") ||
+        message.includes("does not exist")))
+  ) {
+    return "This model is currently unavailable. Please select another model and try again.";
+  }
+
+  if (
+    status === 429 ||
+    message.includes("rate limit") ||
+    message.includes("too many requests")
+  ) {
+    return "This model is busy right now. Please wait a moment and try again.";
+  }
+
+  if (status >= 500 || message.includes("timeout") || message.includes("network")) {
+    return "The model service is currently unreachable. Please try again shortly.";
+  }
+
+  return "Your message could not be processed. Please try again.";
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Provider
 // ─────────────────────────────────────────────────────────────────────────────
@@ -41,6 +75,7 @@ export default function ChatProvider({ children }) {
   const [attachments, setAttachments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [processingMessage, setProcessingMessage] = useState("");
+  const [generationError, setGenerationError] = useState(null);
   // Which conversation the active generation belongs to (null = pending new chat).
   // Lets the UI scope the generating state per-conversation so navigating to a
   // different chat does not show a stale "generating" indicator.
@@ -88,6 +123,7 @@ export default function ChatProvider({ children }) {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     setGeneratingId(conversationId ?? null);
+    setGenerationError(null);
     setIsLoading(true);
     return controller;
   };
@@ -120,7 +156,7 @@ export default function ChatProvider({ children }) {
     if ((!message?.trim() && attachments.length === 0) || isLoading) return;
 
     const controller = startStream(conversationId);
-    if (reasoning) showIndicator("Einen Moment – ich denke nach …");
+    showIndicator("Sending your message...");
 
     // ── Build message text (inline attachment content) ─────────────────────
     let messageText = message.trim();
@@ -200,6 +236,7 @@ export default function ChatProvider({ children }) {
         MAX_TOKENS,
       );
 
+      showIndicator("Saving your message...");
       await addMessage(chatId, {
         role: "user",
         content: messageText,
@@ -208,13 +245,14 @@ export default function ChatProvider({ children }) {
       });
 
       // ── Stream ───────────────────────────────────────────────────────────
+      showIndicator("Contacting the selected model...");
       const finalResponse = await streamResponse(
         apiMessages,
         model,
         (chunk, full) => {
           accumulated = full;
           setCurrentStreamResponse(full);
-          if (reasoning) hideIndicator();
+          hideIndicator();
         },
         reasoning,
         50,
@@ -294,6 +332,10 @@ export default function ChatProvider({ children }) {
         }
       } else {
         console.error("sendMessage failed:", error);
+        setGenerationError({
+          conversationId: chatId ?? null,
+          message: getGenerationErrorMessage(error),
+        });
         onError?.(error);
       }
     } finally {
@@ -402,6 +444,10 @@ export default function ChatProvider({ children }) {
         }
       } else {
         console.error("regenerateResponse failed:", error);
+        setGenerationError({
+          conversationId,
+          message: getGenerationErrorMessage(error),
+        });
         onError?.(error);
       }
     } finally {
@@ -492,6 +538,10 @@ export default function ChatProvider({ children }) {
     } catch (error) {
       if (error.name !== "AbortError") {
         console.error("editAndResend failed:", error);
+        setGenerationError({
+          conversationId,
+          message: getGenerationErrorMessage(error),
+        });
         onError?.(error);
       }
     } finally {
@@ -528,6 +578,7 @@ export default function ChatProvider({ children }) {
         generatingId,
         processingMessage,
         setProcessingMessage,
+        generationError,
         sendMessage,
         regenerateResponse,
         editAndResend,

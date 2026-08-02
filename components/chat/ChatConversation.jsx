@@ -37,6 +37,7 @@ export default function ChatConversation({
   const {
     currentStreamResponse,
     processingMessage,
+    generationError,
     regenerateResponse,
     editAndResend,
     isLoading,
@@ -266,6 +267,12 @@ export default function ChatConversation({
           {isActiveGeneration && !!processingMessage && (
             <div className="flex justify-start px-1">
               <ProcessingIndicator message={processingMessage} />
+            </div>
+          )}
+
+          {generationError?.conversationId === conversationId && (
+            <div className="flex justify-start px-1">
+              <ProcessingIndicator message={generationError.message} tone="error" />
             </div>
           )}
 
