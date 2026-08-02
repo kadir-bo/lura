@@ -30,13 +30,6 @@ export default function SignInPage() {
 
   return (
     <>
-      <PrimaryButton
-        href="/"
-        className="fixed top-0 left-0 w-max min-w-0 p-4 border-none  justify-center hover:bg-transparent text-white"
-      >
-        <Icon name={ArrowLeft} size="sm" />
-      </PrimaryButton>
-
       <AuthFormShell
         title="Sign In"
         error={error}

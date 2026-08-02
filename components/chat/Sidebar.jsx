@@ -25,6 +25,7 @@ import {
 } from "@/components";
 import { useAuth, useDatabase, useModal } from "@/context";
 import SettingsModal from "@/components/modal/SettingsModal";
+import logoMarkSrc from "@/assets/icons/Logo Mark.svg";
 
 // ── Nav config ────────────────────────────────────────────────────────────────
 
@@ -68,12 +69,14 @@ export default function Sidebar({
     return () => clearTimeout(timeout);
   }, [isOpen]);
 
-  const { user, logout } = useAuth();
+  const { user, logout, isDemoUser } = useAuth();
   const { subscribeToConversations, userProfile } = useDatabase();
   const { openModal } = useModal();
 
   const { displayName, email } = user;
-  const username = userProfile?.displayName || displayName || email;
+  const username = isDemoUser
+    ? "Demo Account"
+    : userProfile?.displayName || displayName || email;
   const userImage = userProfile?.photoURL || null;
 
   const [, forceUpdate] = useState(0);
@@ -316,7 +319,7 @@ export default function Sidebar({
                 <button className="flex items-center gap-2.5 px-2 py-1.5 w-full rounded-lg text-sm transition-colors hover:bg-interactive-hover outline-none">
                   <UserProfileImage
                     size="sm"
-                    image={userImage}
+                    image={isDemoUser ? logoMarkSrc : userImage}
                     username={username}
                   />
                   <span

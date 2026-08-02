@@ -23,7 +23,7 @@ import {
   RenameProjectModal,
   RenameChatModal,
 } from "@/components";
-import { Dropdown } from "@/context";
+import { Dropdown, useAuth } from "@/context";
 import { getTitle } from "@/lib";
 import { useDatabase } from "@/context/DatabaseContext";
 import { useModal } from "@/context";
@@ -57,6 +57,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
     toggleArchiveConversation,
   } = useDatabase();
   const { openModal, openMessage } = useModal();
+  const { isDemoUser } = useAuth();
 
   const [projectRecord, setProjectRecord] = useState(null);
   const [chatRecord, setChatRecord] = useState(null);
@@ -197,9 +198,12 @@ export default function ChatHeader({ handleToggleSidebar }) {
   const pageTitle = getTitle(pathname, params);
 
   return (
-    <header
-      className="relative flex h-12 w-full shrink-0 items-center justify-between border-b border-border bg-surface px-2"
-    >
+    <header className="relative flex h-12 w-full shrink-0 items-center justify-between border-b border-border bg-surface px-2">
+      {isDemoUser && (
+        <div className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 items-center text-[11px] text-text-secondary sm:flex">
+          Demo access · For project preview only
+        </div>
+      )}
       {/* Left — mobile sidebar toggle */}
       <div className="flex items-center md:hidden">
         <IconBtn
@@ -217,9 +221,7 @@ export default function ChatHeader({ handleToggleSidebar }) {
         <div className="relative">
           <Dropdown>
             <DropdownTrigger className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-overlay transition-colors duration-100 max-w-50 sm:max-w-xs">
-              <span
-                className="text-[13px] font-medium truncate min-w-40 text-text-primary"
-              >
+              <span className="text-[13px] font-medium truncate min-w-40 text-text-primary">
                 {chat.title}
               </span>
               <Icon

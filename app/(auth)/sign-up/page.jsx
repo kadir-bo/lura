@@ -31,13 +31,6 @@ export default function SignUpPage() {
 
   return (
     <>
-      <PrimaryButton
-        href="/"
-        className="fixed top-0 left-0 w-max min-w-0 p-4 border-none  justify-center hover:bg-transparent text-white"
-      >
-        <Icon name={ArrowLeft} size="sm" />
-      </PrimaryButton>
-
       <AuthFormShell
         title="Create Account"
         error={error}
@@ -86,6 +79,7 @@ export default function SignUpPage() {
           <PrimaryButton
             className="justify-center hover:ring-1 hover:ring-blue-500"
             type="submit"
+            filled
             cta
             disabled={loading}
           >

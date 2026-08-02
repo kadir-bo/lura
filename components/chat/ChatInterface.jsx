@@ -44,33 +44,33 @@ import { ACCEPTED_FILE_TYPES, MODELS, DEFAULT_MODEL } from "@/lib";
 const SUGGESTION_CHIPS = [
   {
     id: "write",
-    label: "Schreiben",
+    label: "Write",
     icon: Edit2,
-    prompt: "Hilf mir, einen Text zu verfassen.",
+    prompt: "Help me write a text.",
   },
   {
     id: "explain",
-    label: "Erklären",
+    label: "Explain",
     icon: BookOpen,
-    prompt: "Erkläre mir etwas Interessantes.",
+    prompt: "Explain something interesting to me.",
   },
   {
     id: "code",
     label: "Code",
     icon: Code,
-    prompt: "Hilf mir, Code zu schreiben.",
+    prompt: "Help me write code.",
   },
   {
     id: "brainstorm",
     label: "Brainstorming",
     icon: Zap,
-    prompt: "Lass uns gemeinsam Ideen entwickeln.",
+    prompt: "Let's brainstorm ideas together.",
   },
   {
     id: "lura",
-    label: "Luras Wahl",
+    label: "Lura's Choice",
     icon: Star,
-    prompt: "Was empfiehlst du mir heute?",
+    prompt: "What do you recommend for me today?",
   },
 ];
 

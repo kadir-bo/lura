@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { Icon, PrimaryButton } from "..";
+import { ArrowLeft } from "react-feather";
 
 const cardVariants = {
   initial: { opacity: 0, y: 8 },
@@ -17,6 +19,13 @@ export default function AuthFormShell({
 }) {
   return (
     <div className="w-full max-w-sm px-4 md:px-0">
+      <PrimaryButton
+        href="/"
+        className="hover:bg-transparent text-text-secondary"
+      >
+        <Icon name={ArrowLeft} size="sm" />
+        Return Home
+      </PrimaryButton>
       <AnimatePresence mode="wait">
         <motion.div
           key={animKey}
@@ -27,9 +36,7 @@ export default function AuthFormShell({
           className="p-8 md:border border-border rounded-2xl bg-surface"
         >
           {title && (
-            <h2
-              className="font-display text-xl font-semibold mb-7 tracking-tight text-foreground"
-            >
+            <h2 className="font-display text-xl font-semibold mb-7 tracking-tight text-foreground">
               {title}
             </h2>
           )}
