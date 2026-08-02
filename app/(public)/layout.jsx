@@ -2,14 +2,17 @@
 
 import { PublicHeader } from "@/components";
 import { useAuth } from "@/context";
-import { redirect } from "next/navigation";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 export default function PublicLayout({ children }) {
-  const { user } = useAuth();
-  if (user) {
-    redirect("/chat");
-  }
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user) router.replace("/chat");
+  }, [loading, router, user]);
+
   return (
     <React.Fragment>
       <PublicHeader />

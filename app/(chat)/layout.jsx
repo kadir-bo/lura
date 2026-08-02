@@ -2,7 +2,7 @@
 
 import { ChatHeader, Message, Sidebar } from "@/components";
 import { PrivateRoute } from "@/lib";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks";
 
@@ -10,12 +10,12 @@ export default function ChatLayout({ children }) {
   const isMobile = useIsMobile();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(!isMobile);
-  const [lastPathname, setLastPathname] = useState(pathname);
 
-  if (pathname !== lastPathname) {
-    setLastPathname(pathname);
-    if (isMobile) setIsOpen(false);
-  }
+  useEffect(() => {
+    if (!isMobile) return undefined;
+    const animationFrame = requestAnimationFrame(() => setIsOpen(false));
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isMobile, pathname]);
 
   const handleToggleSidebar = useCallback(() => setIsOpen((prev) => !prev), []);
   const handleCloseSidebar = useCallback(() => setIsOpen(false), []);

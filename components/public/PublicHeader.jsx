@@ -1,25 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { LogoButton, PrimaryButton } from "@/components";
 import { useAuth } from "@/context";
 
 export default function PublicHeader() {
   const [isStartingDemo, setIsStartingDemo] = useState(false);
   const { user, signInAsDemo, error } = useAuth();
-  const router = useRouter();
-
   const handleDemoSignIn = async () => {
-    if (user) {
-      router.push("/chat");
-      return;
-    }
+    if (user) return;
 
     setIsStartingDemo(true);
     try {
       await signInAsDemo();
-      router.push("/chat");
     } catch (error) {
       console.error("Demo sign-in error:", error);
     } finally {
